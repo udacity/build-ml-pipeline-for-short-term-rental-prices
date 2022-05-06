@@ -1,5 +1,5 @@
 main:
-  components_repository: "https://github.com/udacity/nd0821-c2-build-model-workflow-starter.git#components"
+  components_repository: "https://github.com/udacity/cd0581-building-a-reproducible-model-workflow.git#components"
   # All the intermediate files will be copied to this directory at the end of the run.
   # Set this to null if you are running in prod
   project_name: nyc_airbnb
