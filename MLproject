@@ -1,0 +1,18 @@
+name: nyc_airbnb
+conda_env: conda.yml
+
+entry_points:
+  main:
+    parameters:
+
+      steps:
+        description: Comma-separated list of steps to execute (useful for debugging)
+        type: str
+        default: all
+
+      hydra_options:
+        description: Other configuration parameters to override
+        type: str
+        default: ''
+
+    command: "python main.py main.steps=\\'{steps}\\' $(echo {hydra_options})"
