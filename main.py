@@ -40,7 +40,7 @@ def go(config: DictConfig):
             _ = mlflow.run(
                 f"{config['main']['components_repository']}/get_data",
                 entry_point="main",
-                version="nyc_airbnb_dev",
+                version="main",
                 parameters={
                     "sample": config["etl"]["sample"],
                     "artifact_name": "sample.csv",
