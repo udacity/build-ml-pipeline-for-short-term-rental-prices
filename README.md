@@ -9,6 +9,8 @@ In this project you will build such a pipeline.
 ## Table of contents
 
 - [Introduction](#build-an-ML-Pipeline-for-Short-Term-Rental-Prices-in-NYC)
+- [W&B project](#w&b-project)
+- [Github project](#github-project)
 - [Preliminary steps](#preliminary-steps)
   * [Fork the Starter Kit](#fork-the-starter-kit)
   * [Create environment](#create-environment)
@@ -30,6 +32,12 @@ In this project you will build such a pipeline.
   * [Release the pipeline](#release-the-pipeline)
   * [Train the model on a new data sample](#train-the-model-on-a-new-data-sample)
 - [Cleaning up](#cleaning-up)
+
+## W&B project
+Link to the project: https://wandb.ai/jpmp/nyc_airbnb/overview?workspace=user-jpmp
+
+## Github project
+Link to the project: https://github.com/JPMP16/build-ml-pipeline-for-short-term-rental-prices
 
 ## Preliminary steps
 ### Fork the Starter kit
