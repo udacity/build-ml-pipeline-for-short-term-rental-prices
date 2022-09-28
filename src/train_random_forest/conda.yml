@@ -3,11 +3,13 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - python=3.8
   - pandas=1.1.4
   - pip=20.3.3
   - mlflow=1.14.1
   - scikit-learn=0.24.1
   - matplotlib=3.2.2
   - pillow=8.1.2
+  - protobuf=3.20.*
   - pip:
       - wandb==0.10.21
