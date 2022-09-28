@@ -471,6 +471,10 @@ two other parameters (this is NOT the solution to this step):
 ```
 you can change this command line to accomplish your task.
 
+```bash
+mlflow run . -P steps=train_random_forest -P hydra_options="-m modeling.random_forest.max_tfidf_features=10,15,30 modeling.random_forest.max_features=0.1, 0.33, 0.5, 0.75, 1.0"
+```
+
 While running this simple experimentation is enough to complete this project, you can also explore more and see if 
 you can improve the performance. You can also look at the Hydra documentation for even more ways to do hyperparameters 
 optimization. Hydra is very powerful, and allows even to use things like Bayesian optimization without any change
