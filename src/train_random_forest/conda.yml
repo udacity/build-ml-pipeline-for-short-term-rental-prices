@@ -11,3 +11,5 @@ dependencies:
   - pillow=8.1.2
   - pip:
       - wandb==0.10.21
+      - protobuf==3.20.*
+
