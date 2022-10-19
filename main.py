@@ -40,6 +40,8 @@ def go(config: DictConfig):
             _ = mlflow.run(
                 f"{config['main']['components_repository']}/get_data",
                 "main",
+                # version parameter necessary as MLFlow in the installed
+                # version looks for master instead of main
                 version=config['main']['components_version'],
                 parameters={
                     "sample": config["etl"]["sample"],
