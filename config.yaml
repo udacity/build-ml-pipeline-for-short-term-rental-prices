@@ -1,7 +1,10 @@
 main:
-  components_repository: "https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices/tree/main/components"
+  # Changed the link as indicated by the following issue:
+  # https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices/issues/10
+  components_repository: "https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices#components"
   # All the intermediate files will be copied to this directory at the end of the run.
   # Set this to null if you are running in prod
+  components_version: main
   project_name: nyc_airbnb
   experiment_name: development
   steps: all
