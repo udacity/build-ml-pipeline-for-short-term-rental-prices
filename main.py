@@ -39,7 +39,7 @@ def go(config: DictConfig):
             # Download file and load in W&B
             _ = mlflow.run(
                 f"{config['main']['components_repository']}/get_data",
-                "main",
+                "run",
                 parameters={
                     "sample": config["etl"]["sample"],
                     "artifact_name": "sample.csv",
