@@ -5,18 +5,29 @@ entry_points:
   main:
     parameters:
 
-      parameter1:
-        description: ## ADD DESCRIPTION
+      input_artifact:
+        description: Name of the input artifact in W&B
         type: string
 
-      parameter2:
-        description: ## ADD DESCRIPTION
+      min_price:
+        description: Minimum price per night
+        type: float
+
+      max_price:
+        description: Maximum price per night
+        type: float
+
+      output_artifact:
+        description: Name for the output artifact
         type: string
 
-      parameter3:
-        description: ## ADD DESCRIPTION
+      output_type:
+        description: Type of the output artifact in W&B.
+        type: string
+
+      output_description:
+        description: A brief description of the output artifact
         type: string
 
 
-    command: >-
-        python run  --parameter1 {parameter1}  --parameter2 {parameter2}  --parameter3 {parameter3} 
+    command: "python run.py --input_artifact {input_artifact} --min_price {min_price} --max_price {max_price} --output_artifact {output_artifact} --output_type {output_type} --output_description {output_description}"
