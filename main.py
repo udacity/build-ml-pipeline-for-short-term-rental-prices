@@ -1,10 +1,10 @@
 import json
-
-import mlflow
-import tempfile
 import os
-import wandb
+import tempfile
+
 import hydra
+import mlflow
+import wandb
 from omegaconf import DictConfig
 
 _steps = [
@@ -61,10 +61,18 @@ def go(config: DictConfig):
             pass
 
         if "data_split" in active_steps:
-            ##################
-            # Implement here #
-            ##################
-            pass
+            # Download file and load in W&B
+            _ = mlflow.run(
+                f"{config['main']['components_repository']}/train_val_test_split",
+                "main",
+                parameters={
+                    # TODO:figure out what input should be
+                    "input": 'nothing',
+                    "test_size": config["modeling"]["test_size"],
+                    "random_seed": config["modeling"]["random_seed"],
+                    "stratify_by": config["modeling"]["stratify_by"]
+                },
+            )
 
         if "train_random_forest" in active_steps:
 
