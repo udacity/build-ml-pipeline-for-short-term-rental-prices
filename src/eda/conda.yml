@@ -3,11 +3,12 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - jupyterlab=3.0.12
+  - jupyter=1.0.0
   - seaborn=0.11.1
   - pandas=1.2.3
   - pip=20.3.3
   - pandas-profiling=2.11.0
   - pyarrow=2.0
+  - jinja2=3.0.3
   - pip:
       - wandb==0.10.31
