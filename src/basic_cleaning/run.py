@@ -4,8 +4,8 @@ Performs basic cleaning of W&B dataset and saves results to W&B.
 """
 import argparse
 import logging
-import wandb
 
+import wandb
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
@@ -31,19 +31,32 @@ if __name__ == "__main__":
 
 
     parser.add_argument(
-        "--parameter1", 
-        type=## INSERT TYPE HERE: str, float or int,
-        help=## INSERT DESCRIPTION HERE,
+        "--input_artifact", 
+        type=str,
+        help="W&B raw dataset for basic preprocessing",
         required=True
     )
 
     parser.add_argument(
-        "--parameter2", 
-        type=## INSERT TYPE HERE: str, float or int,
-        help=## INSERT DESCRIPTION HERE,
+        "--output_artifact", 
+        type=str,
+        help="Cleaned dataset to be uploaded to W&B",
         required=True
     )
 
+    parser.min_price(
+        "--output_artifact", 
+        type=float,
+        help="Floor of location price for dataset filtering",
+        required=True
+    )
+
+    parser.add_argument(
+        "--max_price", 
+        type=float,
+        help="Ceiling of location price for dataset filtering",
+        required=True
+    )
 
     args = parser.parse_args()
 

@@ -4,15 +4,25 @@ conda_env: conda.yml
 entry_points:
   main:
     parameters:
-
-      parameter1:
-        description: ## ADD DESCRIPTION
+      input_artifact:
+        description: "W&B raw dataset for basic preprocessing"
         type: string
 
-      parameter2:
-        description: ## ADD DESCRIPTION
+      output_artifact:
+        description: "Cleaned dataset to be uploaded to W&B"
         type: string
 
+      output_description:
+        description: "Cleaned dataset to be uploaded to W&B"
+        type: string
+
+      min_price:
+        description: "Floor of location price for dataset filtering"
+        type: float
+
+      max_price:
+        description: "Ceiling of location price for dataset filtering"
+        type: float
 
     command: >-
-        python run.py  --parameter1 {parameter1}  --parameter2 {parameter2} 
+      python run.py  --parameter1 {parameter1}  --parameter2 {parameter2}
