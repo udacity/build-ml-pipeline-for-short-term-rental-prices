@@ -12,8 +12,12 @@ entry_points:
         description: "Cleaned dataset to be uploaded to W&B"
         type: string
 
+      output_type:
+        description: "Type of the preprocessed artfact displayed in W&B"
+        type: string
+
       output_description:
-        description: "Cleaned dataset to be uploaded to W&B"
+        description: "Description for the preprocessed artfact displayed in W&B"
         type: string
 
       min_price:
@@ -25,4 +29,9 @@ entry_points:
         type: float
 
     command: >-
-      python run.py  --parameter1 {parameter1}  --parameter2 {parameter2}
+      python run.py --input_artifact {input_artifact} \
+                    --output_artifact {output_artifact} \
+                    --output_type {output_type} \
+                    --output_description {output_description} \
+                    --min_price {min_price} \
+                    --max_price {max_price}
