@@ -70,13 +70,12 @@ def test_row_count(data):
 
 
 def test_price_range(data, min_price, max_price):
-    """Tests that the price column in the training dataset falls between
-    an input range.
+    """Tests that all values in the price column in the training dataset fall
+    between an input range.
 
     Args:
         data (pd.DataFrame): Training data as DataFrame
         min_price (float): Floor expected price in dollars
         max_price (float): Ceiling expected price in dollars
     """
-    assert data['price'].between(min_price, max_price)
-    
+    assert data['price'].between(min_price, max_price).all()
