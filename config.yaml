@@ -1,5 +1,5 @@
 main:
-  components_repository: "https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices/tree/main/components"
+  components_repository: "https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices.git#components"
   # All the intermediate files will be copied to this directory at the end of the run.
   # Set this to null if you are running in prod
   project_name: nyc_airbnb
@@ -22,7 +22,7 @@ modeling:
   stratify_by: "neighbourhood_group"
   # Maximum number of features to consider for the TFIDF applied to the title of the
   # insertion (the column called "name")
-  max_tfidf_features: 5
+  max_tfidf_features: 15
   # NOTE: you can put here any parameter that is accepted by the constructor of
   # RandomForestRegressor. This is a subsample, but more could be added:
   random_forest:
