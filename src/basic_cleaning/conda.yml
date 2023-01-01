@@ -7,3 +7,4 @@ dependencies:
   - pip:
       - wandb==0.10.31
       - protobuf==3.20.0
+      - pandas
