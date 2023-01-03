@@ -1,0 +1,9 @@
+python: "3.8.15"
+# Dependencies required to build packages. This field is optional.
+build_dependencies:
+  - pip
+  - setuptools
+dependencies:
+  - mlflow
+  - requests
+  - wandb
