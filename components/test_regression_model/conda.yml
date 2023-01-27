@@ -3,10 +3,10 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - pandas=1.1.4
-  - pip=20.3.3
-  - mlflow=1.14.1
-  - scikit-learn=0.24.1
+  - conda-forge::pandas=1.1.4
+  - conda-forge::pip=20.3.3
+  - conda-forge::mlflow=2.0.1
+  - conda-forge::scikit-learn=0.24.1
   - pip:
-      - wandb==0.10.31
+      - wandb==0.12.17
       - git+https://github.com/udacity/nd0821-c2-build-model-workflow-starter.git#egg=wandb-utils&subdirectory=components
