@@ -13,5 +13,6 @@ dependencies:
   - pandas=1.2.3
   - git=2.30.2
   - pip=20.3.3
+  - numpy=1.19
   - pip:
       - wandb==0.10.31
