@@ -4,3 +4,4 @@ channels:
   - defaults
 dependencies:
   - mlflow=1.14.1
+  - numpy=1.19
