@@ -11,3 +11,5 @@ dependencies:
   - pyarrow=2.0
   - pip:
       - wandb==0.10.31
+      - numpy==1.20
+      - jupyter

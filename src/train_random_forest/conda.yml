@@ -10,4 +10,5 @@ dependencies:
   - matplotlib=3.2.2
   - pillow=8.1.2
   - pip:
-      - wandb==0.10.21
+      - wandb==0.10.31
+      - numpy==1.20
