@@ -64,6 +64,10 @@ def go(config: DictConfig):
                     "artifact_description": "Data with outliers and null values removed",
                     "min_price": config["etl"]["min_price"],
                     "max_price": config["etl"]["max_price"],
+                    "min_longitude": config["etl"]["min_longitude"],
+                    "max_longitude": config["etl"]["max_longitude"],
+                    "min_latitude": config["etl"]["min_latitude"],
+                    "max_latitude": config["etl"]["max_latitude"]
                 },
             )
 
