@@ -38,6 +38,12 @@ def go(args):
 
     logger.info("Convert last_review to datetime")
     df['last_review'] = pd.to_datetime(df['last_review'])
+
+    logger.info("Ensuring that the longitude and latitude are correct")
+    idx = (
+        df['longitude'].between(args.min_longitude, args.max_longitude) & 
+        df['latitude'].between(args.min_latitude, args.max_latitude)
+        )
     
     logger.info("Saving locally")
     df.to_csv("clean_sample.csv", index=False)
@@ -96,6 +102,34 @@ if __name__ == "__main__":
         "--max_price",
         type=float,
         help="Maximum price to filter",
+        required=True
+    )
+
+    parser.add_argument(
+        "--min_longitude",
+        type=float,
+        help="Minimum longitude to filter",
+        required=True
+    )
+
+    parser.add_argument(
+        "--max_longitude",
+        type=float,
+        help="Maximum longitude to filter",
+        required=True
+    )
+
+    parser.add_argument(
+        "--min_latitude",
+        type=float,
+        help="Minimum latitude to filter",
+        required=True
+    )
+
+    parser.add_argument(
+        "--max_latitude",
+        type=float,
+        help="Maximum latitude to filter",
         required=True
     )
 
