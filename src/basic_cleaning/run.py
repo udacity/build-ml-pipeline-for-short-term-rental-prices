@@ -44,6 +44,7 @@ def go(args):
         df['longitude'].between(args.min_longitude, args.max_longitude) & 
         df['latitude'].between(args.min_latitude, args.max_latitude)
         )
+    df = df[idx].copy()
     
     logger.info("Saving locally")
     df.to_csv("clean_sample.csv", index=False)
