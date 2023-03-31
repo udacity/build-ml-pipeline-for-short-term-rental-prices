@@ -30,6 +30,21 @@ entry_points:
         description: Maximum price of the rental
         type: float
 
+      min_longitude:
+        description: Minimum longitude of the rental
+        type: float
+
+      max_longitude:
+        description: Maximum longitude of the rental
+        type: float
+
+      min_latitude:
+        description: Minimum latitude of the rental
+        type: float
+
+      max_latitude:
+        description: Maximum latitude of the rental
+        type: float
 
     command: >-
         python run.py  \
