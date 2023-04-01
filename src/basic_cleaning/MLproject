@@ -24,27 +24,27 @@ entry_points:
       
       min_price:
         description: Minimum price of the rental
-        type: float
+        type: string
       
       max_price:
         description: Maximum price of the rental
-        type: float
+        type: string
 
       min_longitude:
         description: Minimum longitude of the rental
-        type: float
+        type: string
 
       max_longitude:
         description: Maximum longitude of the rental
-        type: float
+        type: string
 
       min_latitude:
         description: Minimum latitude of the rental
-        type: float
+        type: string
 
       max_latitude:
         description: Maximum latitude of the rental
-        type: float
+        type: string
 
     command: >-
       python run.py --input_artifact {input_artifact} --artifact_name {artifact_name} --artifact_type {artifact_type} --artifact_description {artifact_description} --min_price {min_price} --max_price {max_price} --min_longitude {min_longitude} --max_longitude {max_longitude} --min_latitude {min_latitude} --max_latitude {max_latitude}

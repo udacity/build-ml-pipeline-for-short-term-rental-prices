@@ -21,7 +21,7 @@ _steps = [
 
 
 # This automatically reads in the configuration
-@hydra.main(config_name='config')
+@hydra.main(version_base="1.2", config_path=".", config_name='config')
 def go(config: DictConfig):
 
     # Setup the wandb experiment. All runs will be grouped under this name
@@ -32,18 +32,15 @@ def go(config: DictConfig):
     steps_par = config['main']['steps']
     active_steps = steps_par.split(",") if steps_par != "all" else _steps
 
-    root_dir = hydra.utils.get_original_cwd()
-    components_dir = os.path.join(root_dir, "components")
-    src_dir = os.path.join(root_dir, "src")
+    
 
     # Move to a temporary directory
     with tempfile.TemporaryDirectory() as tmp_dir:
 
         if "download" in active_steps:
             # Download file and load in W&B
-            dir_path = os.path.join(components_dir, "get_data")
             _ = mlflow.run(
-                dir_path,
+                f'{config["main"]["components_repository"]}/get_data'
                 "main",
                 version='main',
                 parameters={
@@ -58,9 +55,8 @@ def go(config: DictConfig):
             ##################
             # Implement here #
             ##################
-            dir_path = os.path.join(src_dir, "basic_cleaning")
             _ = mlflow.run(
-                dir_path,
+                os.path.join(hydra.utils.get_original_cwd(), "src", "basic_cleaning"),
                 "main",
                 parameters={
                     "input_artifact": "sample.csv:latest",
@@ -80,9 +76,8 @@ def go(config: DictConfig):
             ##################
             # Implement here #
             ##################
-            dir_path = os.path.join(src_dir, "data_check")
             _ = mlflow.run(
-                dir_path,
+                os.path.join(hydra.utils.get_original_cwd(), "src", "data_check"),
                 "main",
                 parameters={
                     "csv": "clean_sample.csv:latest",
@@ -97,9 +92,8 @@ def go(config: DictConfig):
             ##################
             # Implement here #
             ##################
-            dir_path = os.path.join(components_dir, "train_val_test_split")
             _ = mlflow.run(
-                dir_path,
+                os.path.join(hydra.utils.get_original_cwd(), "components", "train_val_test_split"),
                 "main",
                 parameters={
                     "input": "clean_sample.csv:latest",
@@ -123,9 +117,8 @@ def go(config: DictConfig):
             # Implement here #
             ##################
 
-            dir_path = os.path.join(src_dir, "train_random_forest")
             _ = mlflow.run(
-                dir_path,
+                os.path.join(hydra.utils.get_original_cwd(), "src", "train_random_forest"),
                 "main",
                 parameters={
                     "trainval_artifact": "trainval_data.csv:latest",
@@ -144,9 +137,8 @@ def go(config: DictConfig):
             ##################
             # Implement here #
             ##################
-            dir_path = os.path.join(components_dir, "test_regression_model")
             _ = mlflow.run(
-                dir_path,
+                os.path.join(hydra.utils.get_original_cwd(), "components", "test_regression_model"),
                 "main",
                 parameters={
                     "mlflow_model": "random_forest_export:prod",
