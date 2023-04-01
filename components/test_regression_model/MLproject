@@ -13,4 +13,5 @@ entry_points:
         description: The test artifact
         type: string
 
-    command: "python run.py  --mlflow_model {mlflow_model} --test_dataset {test_dataset}"
+    command: >-
+      python run.py  --mlflow_model {mlflow_model} --test_dataset {test_dataset}
