@@ -9,5 +9,4 @@ dependencies:
   - matplotlib=3.3.4
   - pandas=1.2.3
   - git=2.30.2
-  - pip:
-      - wandb==0.10.31
+  - wandb==0.10.31
