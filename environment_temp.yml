@@ -1,0 +1,16 @@
+name: nyc_airbnb_dev
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - mlflow
+  - ipython
+  - python
+  - notebook
+  - jupyterlab
+  - cookiecutter
+  - hydra-core
+  - matplotlib
+  - pandas
+  - git
+  - wandb
