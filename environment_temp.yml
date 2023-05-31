@@ -1,16 +1,15 @@
 name: nyc_airbnb_dev
 channels:
   - conda-forge
-  - defaults
 dependencies:
-  - python=3.8
-  - ipython=7.21.0
-  - mlflow
-  - notebook
-  - jupyterlab
-  - cookiecutter
-  - hydra-core
-  - matplotlib
-  - pandas
-  - git
-  - wandb
+  - conda-forge::python=3.8
+  - conda-forge::ipython=7.21.0
+  - conda-forge::mlflow
+  - conda-forge::notebook
+  - conda-forge::jupyterlab
+  - conda-forge::cookiecutter
+  - conda-forge::hydra-core
+  - conda-forge::matplotlib
+  - conda-forge::pandas
+  - conda-forge::git
+  - conda-forge::wandb
