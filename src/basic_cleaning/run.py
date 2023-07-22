@@ -50,7 +50,6 @@ def go(args):
     logger.info("Logging artifact")
     run.log_artifact(artifact)
 
-
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="This steps cleans the data")

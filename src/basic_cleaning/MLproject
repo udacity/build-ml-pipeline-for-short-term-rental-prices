@@ -5,18 +5,30 @@ entry_points:
   main:
     parameters:
 
-      parameter1:
-        description: ## ADD DESCRIPTION
+      input_artifact:
+        description: Fully qualified name for the artifact
         type: string
 
-      parameter2:
-        description: ## ADD DESCRIPTION
+      output_artifact:
+        description: Name for the W&B artifact that will be created
         type: string
 
-      parameter3:
-        description: ## ADD DESCRIPTION
+      output_type:
+        description: Type of the artifact to create
         type: string
+
+      output_description:
+        description: Description for the artifact
+        type: string
+
+      min_price:
+        description: Minimum price for cleaning outliers
+        type: float
+
+      max_price:
+        description: Maximum price for cleaning outliers
+        type: float
 
 
     command: >-
-        python run.py  --parameter1 {parameter1}  --parameter2 {parameter2}  --parameter3 {parameter3} 
+        python run.py  --input_artifact {input_artifact}  --output_artifact {output_artifact}  --output_type {output_type}  --output_description {output_description}  --min_price {min_price}  --max_price {max_price} 
