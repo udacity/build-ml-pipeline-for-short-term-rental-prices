@@ -1,0 +1,1 @@
+conda info --envs | grep mlflow | cut -f1 -d" "
