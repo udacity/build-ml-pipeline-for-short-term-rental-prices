@@ -28,6 +28,8 @@ def go(config: DictConfig):
     os.environ["WANDB_PROJECT"] = config["main"]["project_name"]
     os.environ["WANDB_RUN_GROUP"] = config["main"]["experiment_name"]
 
+    root_path = hydra.utils.get_original_cwd()
+
     # Steps to execute
     steps_par = config['main']['steps']
     active_steps = steps_par.split(",") if steps_par != "all" else _steps
@@ -38,9 +40,9 @@ def go(config: DictConfig):
         if "download" in active_steps:
             # Download file and load in W&B
             _ = mlflow.run(
-                f"{config['main']['components_repository']}/get_data",
+                #f"{config['main']['components_repository']}/get_data",
+                os.path.join(root_path, "components/get_data"),
                 "main",
-                version='main',
                 parameters={
                     "sample": config["etl"]["sample"],
                     "artifact_name": "sample.csv",

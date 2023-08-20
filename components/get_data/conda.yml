@@ -2,9 +2,9 @@ name: download_file
 channels:
   - defaults
 dependencies:
-  - pip=20.3.3
+  - pip=23.0.1=py310h06a4308_0
   - pip:
-      - wandb==0.10.31
+      - wandb==0.15.8
       - requests==2.24.0
       - mlflow==1.30.1
       - git+https://github.com/udacity/nd0821-c2-build-model-workflow-starter.git#egg=wandb-utils&subdirectory=components
