@@ -40,7 +40,6 @@ def go(config: DictConfig):
         if "download" in active_steps:
             # Download file and load in W&B
             _ = mlflow.run(
-                #f"{config['main']['components_repository']}/get_data",
                 os.path.join(root_path, "components/get_data"),
                 "main",
                 parameters={
@@ -52,10 +51,16 @@ def go(config: DictConfig):
             )
 
         if "basic_cleaning" in active_steps:
-            ##################
-            # Implement here #
-            ##################
-            pass
+            _ = mlflow.run(
+                os.path.join(root_path, "src/basic_cleaning"),
+                "main",
+                parameters={
+                    "sample": config["etl"]["sample"],
+                    "artifact_name": "sample.csv",
+                    "artifact_type": "raw_data",
+                    "artifact_description": "Raw file as downloaded"
+                },
+            )
 
         if "data_check" in active_steps:
             ##################
