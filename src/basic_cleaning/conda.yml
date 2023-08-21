@@ -1,0 +1,8 @@
+name: basic_cleaning
+channels:
+  - defaults
+dependencies:
+  - pip=20.3.3
+  - pip:
+      - wandb==0.15.4
+      - pandas==1.5.3

@@ -1,6 +1,7 @@
 name: components
 channels:
-  - conda-forge
   - defaults
 dependencies:
-  - mlflow=1.14.1
+  - pip===20.3.3
+  - pip:
+      - mlflow==1.30.1
