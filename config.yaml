@@ -32,7 +32,7 @@ modeling:
     min_samples_leaf: 3
     # Here -1 means all available cores
     n_jobs: -1
-    criterion: mae
+    criterion: absolute_error
     max_features: 0.5
     # DO not change the following
     oob_score: true
