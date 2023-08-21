@@ -9,26 +9,25 @@ entry_points:
         description: Input CSV file from W&B
         type: string
 
-       output_artifact:
+      output_artifact:
         description: Cleaned output file
         type: string
 
-       output_type:
+      output_type:
         description: Cleaned file
         type: string
 
-       output_description:
+      output_description:
         description: Raw sample file has been cleaned
         type: string
 
-       min_price:
+      min_price:
         description: Minimal price to filter for
         type: float
 
-       max_price:
+      max_price:
         description: Maximum price to filter for
         type: float
 
-
     command: >-
-        python run.py  --input_artifact {input_artifact}  -- output_artifact { output_artifact}  -- output_type { output_type}  -- output_description { output_description}  -- min_price { min_price}  -- max_price { max_price} 
+        python run.py  --input_artifact {input_artifact}  --output_artifact {output_artifact}  --output_type {output_type}  --output_description {output_description}  --min_price {min_price}  --max_price {max_price} 

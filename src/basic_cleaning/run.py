@@ -5,6 +5,7 @@ Download from W&B the raw dataset and apply some basic data cleaning, exporting 
 import argparse
 import logging
 import wandb
+import pandas as pd
 
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
@@ -27,12 +28,16 @@ def go(args):
     df = pd.read_csv(artifact_path)
 
     # Perform cleaning steps
-    logger.info("Dropping duplicates")
+    logger.info("Limiting prices")
 
-    idx = df['price'].between(, max_price)
+    idx = df['price'].between(args.min_price, args.max_price)
     df = df[idx].copy()
+
     # Convert last_review to datetime
     df['last_review'] = pd.to_datetime(df['last_review'])
+
+    # Save cleaned data to new artifact
+    df.to_csv("clean_sample.csv", index=False)
 
     artifact = wandb.Artifact(
      args.output_artifact,
@@ -50,43 +55,43 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--input_artifact", 
-        type=## INSERT TYPE HERE: str, float or int,
-        help=## INSERT DESCRIPTION HERE,
+        type= str,
+        help= "Input CSV file from W&B",
         required=True
     )
 
     parser.add_argument(
-        "-- output_artifact", 
-        type=## INSERT TYPE HERE: str, float or int,
-        help=## INSERT DESCRIPTION HERE,
+        "--output_artifact", 
+        type= str,
+        help="Cleaned output file",
         required=True
     )
 
     parser.add_argument(
-        "-- output_type", 
-        type=## INSERT TYPE HERE: str, float or int,
-        help=## INSERT DESCRIPTION HERE,
+        "--output_type", 
+        type= str,
+        help="Cleaned file",
         required=True
     )
 
     parser.add_argument(
-        "-- output_description", 
-        type=## INSERT TYPE HERE: str, float or int,
-        help=## INSERT DESCRIPTION HERE,
+        "--output_description", 
+        type= str,
+        help="Raw sample file has been cleaned",
         required=True
     )
 
     parser.add_argument(
-        "-- min_price", 
-        type=## INSERT TYPE HERE: str, float or int,
-        help=## INSERT DESCRIPTION HERE,
+        "--min_price", 
+        type= float,
+        help="Minimal price to filter for",
         required=True
     )
 
     parser.add_argument(
-        "-- max_price", 
-        type=## INSERT TYPE HERE: str, float or int,
-        help=## INSERT DESCRIPTION HERE,
+        "--max_price", 
+        type= float,
+        help="Maximum price to filter for",
         required=True
     )
 
