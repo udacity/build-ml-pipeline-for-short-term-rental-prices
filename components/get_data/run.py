@@ -8,7 +8,7 @@ import os
 
 import wandb
 
-from wandb_utils.log_artifact import log_artifact
+#from wandb_utils.log_artifact import log_artifact
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
@@ -21,13 +21,13 @@ def go(args):
 
     logger.info(f"Returning sample {args.sample}")
     logger.info(f"Uploading {args.artifact_name} to Weights & Biases")
-    log_artifact(
-        args.artifact_name,
-        args.artifact_type,
-        args.artifact_description,
-        os.path.join("data", args.sample),
-        run,
-    )
+    artifact = wandb.Artifact(
+                name=f"{k}_data.csv",
+                type=f"{k}_data",
+                description=f"{k} split of dataset"
+            )
+    artifact.add_file(fp.name)
+    run.log_artifact(artifact)
 
 
 if __name__ == "__main__":
