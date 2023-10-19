@@ -47,24 +47,52 @@ def go(config: DictConfig):
                     "artifact_type": "raw_data",
                     "artifact_description": "Raw file as downloaded"
                 },
+                env_manager='local'
             )
 
         if "basic_cleaning" in active_steps:
-            ##################
-            # Implement here #
-            ##################
+            _ = mlflow.run(
+                os.path.join(hydra.utils.get_original_cwd(), "src", "basic_cleaning"),
+                "main",
+                parameters={
+                    "input_artifact": "sample.csv:latest",
+                    "output_artifact": "clean_sample.csv",
+                    "output_type": "clean_sample",
+                    "output_description": "Data with outliers and null values removed",
+                    "min_price": config['etl']['min_price'],
+                    "max_price": config['etl']['max_price']
+                },
+                env_manager='local'
+            )
             pass
 
         if "data_check" in active_steps:
-            ##################
-            # Implement here #
-            ##################
+            _ = mlflow.run(
+                os.path.join(hydra.utils.get_original_cwd(), "src", "data_check"),
+                "main",
+                parameters={
+                    "csv": "clean_sample.csv:latest",
+                    "ref": "clean_sample.csv:reference",
+                    "kl_threshold": config['data_check']['kl_threshold'],
+                    "min_price": config['etl']['min_price'],
+                    "max_price": config['etl']['max_price']
+                },
+                env_manager='local'
+            )
             pass
 
         if "data_split" in active_steps:
-            ##################
-            # Implement here #
-            ##################
+            _ = mlflow.run(
+                f"{config['main']['components_repository']}/train_val_test_split",
+                "main",
+                parameters={
+                    "input": "clean_sample.csv:latest",
+                    "test_size": config['modeling']['test_size'],
+                    "random_seed": config['modeling']['random_seed'],
+                    "stratify_by": config['modeling']['stratify_by']
+                },
+                env_manager='local'
+            )
             pass
 
         if "train_random_forest" in active_steps:
