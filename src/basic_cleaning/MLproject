@@ -1,0 +1,33 @@
+name: basic_cleaning
+conda_env: conda.yml
+
+entry_points:
+  main:
+    parameters:
+        input_artifact:
+            description: Name for the input artifact
+            type: string
+
+        output_artifact:
+            description: Name for the cleaned output artifact
+            type: string
+
+        output_type:
+            description: Type of the clean output artifact
+            type: string
+
+        output_description:
+            description: Description for the output preprocessed artifact
+            type: string
+
+        min_price:
+            description: Min price to consider for the prediction column
+            type: string
+
+        max_price:
+            description: Max price to consider for the prediction column
+            type: string
+
+
+    command: >-
+        python run.py  --input_artifact {input_artifact}  --output_artifact {output_artifact}  --output_type {output_type}  --output_description {output_description}  --min_price {min_price}  --max_price {max_price}
