@@ -62,6 +62,7 @@ def go(config: DictConfig):
                     "max_price": config['etl']['max_price']
                 },
             )
+
         if "data_check" in active_steps:
             _ = mlflow.run(
                 os.path.join(hydra.utils.get_original_cwd(), "src", "data_check"),
@@ -75,7 +76,6 @@ def go(config: DictConfig):
                 },
             )
             
-
         if "data_split" in active_steps:
             _ = mlflow.run(
                 os.path.join(hydra.utils.get_original_cwd(), "components", "train_val_test_split"),
@@ -87,6 +87,7 @@ def go(config: DictConfig):
                     "stratify_by": config['modeling']['stratify_by'],
                 },
             )
+
         if "train_random_forest" in active_steps:
 
             # NOTE: we need to serialize the random forest configuration into JSON
@@ -111,8 +112,6 @@ def go(config: DictConfig):
                     "max_tfidf_features": config['modeling']['max_tfidf_features'],
                     "output_artifact": 'random_forest_export'},
             )
-
-            pass
 
         if "test_regression_model" in active_steps:
             _ = mlflow.run(
