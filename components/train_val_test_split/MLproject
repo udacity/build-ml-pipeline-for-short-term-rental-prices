@@ -1,6 +1,6 @@
 name: download_file
 conda_env: conda.yml
-input="clean_sample.csv:latest"
+
 entry_points:
   main:
     parameters:
