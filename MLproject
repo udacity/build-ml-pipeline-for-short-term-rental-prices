@@ -10,4 +10,9 @@ entry_points:
         type: str
         default: all
 
+      hydra_options:
+        description: Other configuration parameters to override
+        type: str
+        default: ''
+
     command: "python main.py main.steps='{steps}'"
