@@ -53,10 +53,18 @@ def go(config: DictConfig):
             )
 
         if "basic_cleaning" in active_steps:
-            ##################
-            # Implement here #
-            ##################
-            pass
+            _ = mlflow.run (
+                os.path.join (root_path,"basic_cleaning"),
+                "main",
+                parameters={
+                    "input_artifact": config["etl"]["sample"],
+                    "output_artifact": "cleaned_dataset.parquet",
+                    "output_type": "parquet",
+                    "output_description": "Cleaned_data_without_outliers",
+                    "min_price": config["etl"]["min_price"],
+                    "max_price": config["etl"]["max_price"]
+                },
+            )
 
         if "data_check" in active_steps:
             ##################
