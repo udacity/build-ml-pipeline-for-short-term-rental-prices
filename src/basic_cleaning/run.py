@@ -5,6 +5,8 @@ Download from W&B the raw dataset and apply some basic data cleaning, exporting 
 import argparse
 import logging
 import wandb
+import pandas as pd
+import os
 
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
@@ -21,11 +23,43 @@ def go(args):
     # particular version of the artifact
     # artifact_local_path = run.use_artifact(args.input_artifact).file()
 
-    ######################
-    # YOUR CODE HERE     #
-    ######################
     logger.info(f"Downloading {args.input_artifact} ...")
+    artifact = run.use_artifact(args.input_artifact)
+    artifact_path = artifact.file()
 
+    dataframe = pd.read_csv(artifact_path)
+
+    min_price = args.min_price
+    max_price = args.max_price
+    logger.info('Applying min/max outlier detection on price column')
+    try:
+        # Outlier drop on price
+        idx = dataframe['price'].between (min_price, max_price)
+    except TypeError as err:
+        logger.error(err)
+        logger.error('Min price and Max Price are not numbers')
+        raise TypeError(err)
+
+    outlier_df = dataframe[idx].copy ()
+
+    # Convert last_review to datetime
+    outlier_df['last_review'] = pd.to_datetime (outlier_df['last_review'])
+    outlier_df.to_parquet(args.output_artifact)
+
+    logger.info(f'Storing file as {args.output_artifact}...')
+
+    # Storing the dataset
+    artifact = wandb.Artifact(
+        name=args.output_artifact,
+        type=args.output_type,
+        description=args.output_description,
+    )
+    artifact.add_file(args.output_artifact)
+
+    logger.info("Logging artifact")
+    run.log_artifact(artifact)
+
+    os.remove(args.output_artifact)
 
 if __name__ == "__main__":
 
