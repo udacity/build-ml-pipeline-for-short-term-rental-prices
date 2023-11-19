@@ -6,7 +6,7 @@ import argparse
 import logging
 import pandas as pd
 import wandb
-import tempfile
+import os
 from sklearn.model_selection import train_test_split
 from wandb_utils.log_artifact import log_artifact
 
@@ -24,7 +24,7 @@ def go(args):
     logger.info(f"Fetching artifact {args.input}")
     artifact_local_path = run.use_artifact(args.input).file()
 
-    df = pd.read_csv(artifact_local_path)
+    df = pd.read_parquet(artifact_local_path)
 
     logger.info("Splitting trainval and test")
     trainval, test = train_test_split(
@@ -36,18 +36,20 @@ def go(args):
 
     # Save to output files
     for df, k in zip([trainval, test], ['trainval', 'test']):
-        logger.info(f"Uploading {k}_data.csv dataset")
-        with tempfile.NamedTemporaryFile("w") as fp:
-
-            df.to_csv(fp.name, index=False)
+        logger.info(f"Uploading {k}_data.parquet dataset")
+        # with tempfile.NamedTemporaryFile("w") as fp:
+        temp_name = 'temp_file.parquet'
+        with open (temp_name, "w") as fp:
+            df.to_parquet(fp.name)
 
             log_artifact(
-                f"{k}_data.csv",
+                f"{k}_data.parquet",
                 f"{k}_data",
                 f"{k} split of dataset",
                 fp.name,
                 run,
             )
+    os.remove(temp_name)
 
 
 if __name__ == "__main__":
