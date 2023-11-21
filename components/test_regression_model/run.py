@@ -30,7 +30,7 @@ def go(args):
     test_dataset_path = run.use_artifact(args.test_dataset).file()
 
     # Read test dataset
-    X_test = pd.read_csv(test_dataset_path)
+    X_test = pd.read_parquet(test_dataset_path)
     y_test = X_test.pop("price")
 
     logger.info("Loading model and performing inference on test set")
