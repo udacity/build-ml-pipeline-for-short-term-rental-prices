@@ -1,4 +1,4 @@
-name: test_model
+name: test_regression_model
 conda_env: conda.yml
 
 entry_points:
