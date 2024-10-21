@@ -3,7 +3,7 @@
 In order to run these components you need to have conda (Miniconda or Anaconda) and MLflow installed.
 Install it with::
 
-    > conda install mlflow=1.14.1
+    > conda install mlflow=2.8.1
 
 then run::
 
