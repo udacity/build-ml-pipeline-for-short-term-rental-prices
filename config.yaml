@@ -4,7 +4,13 @@ main:
   # Set this to null if you are running in prod
   project_name: nyc_airbnb
   experiment_name: development
-  steps: all
+  steps: 
+    - download
+    - basic_cleaning
+    - data_check
+    - data_split
+    - train_random_forest
+    - test_regression_model
 etl:
   sample: "sample1.csv"
   min_price: 10 # dollars

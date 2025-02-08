@@ -1,0 +1,43 @@
+name: basic_cleaning
+conda_env: conda.yml
+
+entry_points:
+  main:
+    parameters:
+
+      tmp_directory:
+        description: Temp directory of storing the cleaned csv file
+        type: string
+
+      input_artifact: 
+        description: Input CSV file to be cleaned
+        type: string
+
+      output_artifact: 
+        description: Cleaned CSV file to be stored
+        type: string
+
+      output_type: 
+        description: Output file to be stored
+        type: string
+
+      output_description:
+        description: Outliers and nulls are removed from input
+        type: string
+
+      min_price: 
+        description: Minimum price to filter out outliers less
+        type: float
+
+      max_price:
+        description: Maximum price to filter out outliers more
+        type: float
+
+    command: >-
+        python run.py --tmp_directory {tmp_directory} \
+                      --input_artifact {input_artifact} \
+                      --output_artifact {output_artifact} \
+                      --output_type {output_type} \
+                      --output_description {output_description} \
+                      --min_price {min_price} \
+                      --max_price {max_price}
