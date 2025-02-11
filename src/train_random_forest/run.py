@@ -100,7 +100,7 @@ def go(args):
     mlflow.sklearn.save_model(sk_pipe,
                               export_path, 
                               serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_CLOUDPICKLE,
-                              input_example=x_val.iloc[:2])
+                              input_example=X_val.iloc[:2])
     artifact = wandb.Artifact(
         args.output_artifact, 
         type='modek_export', 
@@ -220,7 +220,7 @@ def get_inference_pipeline(rf_config, max_tfidf_features):
     # ColumnTransformer instance that we saved in the `preprocessor` variable, and a step called "random_forest"
     # with the random forest instance that we just saved in the `random_forest` variable.
     # HINT: Use the explicit Pipeline constructor so you can assign the names to the steps, do not use make_pipeline
-    sk_pipe = Pipeline(steps = [('preprocessor', ColumnTransformer), ('random_forest', random_Forest)])
+    sk_pipe = Pipeline(steps = [('preprocessor', preprocessor), ('random_forest', random_Forest)])
 
     return sk_pipe, processed_features
 
