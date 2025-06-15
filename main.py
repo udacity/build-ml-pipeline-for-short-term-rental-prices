@@ -51,21 +51,57 @@ def go(config: DictConfig):
             )
 
         if "basic_cleaning" in active_steps:
-            ##################
-            # Implement here #
-            ##################
+            _ = mlflow.run(
+                os.path.join(hydra.utils.get_original_cwd(), "src", "basic_cleaning"),
+                "main",
+                parameters={
+                "input_artifact": "sample.csv:latest",
+                "output_artifact": "clean_sample.csv",
+                "output_type": "clean_sample",
+                "output_description": "Data with outliers and null values removed",
+                "min_price": config['etl']['min_price'],
+                "max_price": config['etl']['max_price']
+                },
+    )
             pass
 
         if "data_check" in active_steps:
-            ##################
-            # Implement here #
-            ##################
+            _ = mlflow.run(
+                os.path.join(hydra.utils.get_original_cwd(), "src", "check_data"),
+                "main",
+                parameters={
+                "csv": "clean_sample.csv:v0",
+                "ref": "clean_sample.csv:reference",
+                "kl_threshold": config["data_check"]["kl_threshold"],
+                "ks_alpha": config["data_check"]["ks_alpha"],
+                "min_price":10,
+                "max_price":350
+                },
+    )
+
             pass
 
         if "data_split" in active_steps:
-            ##################
-            # Implement here #
-            ##################
+            _ = mlflow.run(
+                f"{config['main']['components_repository']}/train_val_test_split",
+                "main",
+                parameters={
+                # The input is the cleaned data from the previous step
+                "input_artifact": "clean_sample.csv:v0",
+                
+                # Fraction of the data to allocate for the test set
+                "test_size": config["modeling"]["test_size"],
+                
+                # Fraction of the *remaining* data to allocate for the validation set
+                "val_size": config["modeling"]["val_size"],
+
+                # Seed for reproducibility
+                "random_seed": config["modeling"]["random_seed"],
+                
+                # Column to use for stratification, ensuring similar distributions in splits
+                "stratify_by": config["modeling"]["stratify_by"]
+                },
+            )
             pass
 
         if "train_random_forest" in active_steps:

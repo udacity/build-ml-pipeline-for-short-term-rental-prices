@@ -1,4 +1,4 @@
-name: {{cookiecutter.step_name}}
+name: basic_cleaning
 channels:
   - conda-forge
   - defaults
