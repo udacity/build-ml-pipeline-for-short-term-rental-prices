@@ -16,7 +16,7 @@ logger = logging.getLogger()
 
 def go(args):
 
-    run = wandb.init(job_type="train_val_test_split")
+    run = wandb.init(project="nyc_airbnb", job_type="train_val_test_split")
     run.config.update(args)
 
     # Download input artifact. This will also note that this script is using this

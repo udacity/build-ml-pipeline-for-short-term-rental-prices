@@ -36,3 +36,6 @@ modeling:
     max_features: 0.5
     # DO not change the following
     oob_score: true
+
+  train_random_forest:
+    export_artifact: "random_forest_model"

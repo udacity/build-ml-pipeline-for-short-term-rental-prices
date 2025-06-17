@@ -16,7 +16,7 @@ logger = logging.getLogger()
 
 def go(args):
 
-    run = wandb.init(job_type="download_file")
+    run = wandb.init(project="nyc_airbnb", job_type="download_file")
     run.config.update(args)
 
     logger.info(f"Returning sample {args.sample}")

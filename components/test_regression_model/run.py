@@ -18,7 +18,7 @@ logger = logging.getLogger()
 
 def go(args):
 
-    run = wandb.init(job_type="test_model")
+    run = wandb.init(project="nyc_airbnb",job_type="test_model")
     run.config.update(args)
 
     logger.info("Downloading artifacts")
