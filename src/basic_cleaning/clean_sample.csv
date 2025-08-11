@@ -1,0 +1,7 @@
+id,name,host_id,host_name,neighbourhood_group,neighbourhood,latitude,longitude,room_type,price,minimum_nights,number_of_reviews,last_review,reviews_per_month,calculated_host_listings_count,availability_365
+26235873,Voted #1 Airbnb In NYC,197169969,Maria,Queens,Jamaica,40.68939,-73.79885999999999,Entire home/apt,10,2,22,2019-07-06,1.76,1,332
+17952277,"Newly renovated, fully furnished room in Brooklyn",62685070,Katie,Brooklyn,Bushwick,40.699740000000006,-73.91935,Private room,10,5,0,,,1,0
+24114389,"Very Spacious bedroom, steps from CENTRAL PARK.",180661875,Salim,Manhattan,Upper West Side,40.768440000000005,-73.98333000000001,Private room,10,1,2,2018-04-23,0.13,1,0
+26496645,Room with a view,110049861,Martin,Brooklyn,Williamsburg,40.709590000000006,-73.95693,Private room,10,1,0,,,1,83
+17979764,Jen Apt,84497333,Jennifer,Manhattan,SoHo,40.72237,-73.99817,Private room,10,5,2,2017-04-15,0.07,1,0
+27316669,Bronx Apart,205820814,Luz,Bronx,Highbridge,40.83454,-73.92751,Private room,10,1,0,,,1,180
