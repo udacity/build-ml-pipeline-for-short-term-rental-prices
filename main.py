@@ -21,7 +21,7 @@ _steps = [
 
 
 # This automatically reads in the configuration
-@hydra.main(config_name='config')
+@hydra.main(version_base=None, config_name='config')  # Adding version_base for Python 3.13 compatibility
 def go(config: DictConfig):
 
     # Setup the wandb experiment. All runs will be grouped under this name

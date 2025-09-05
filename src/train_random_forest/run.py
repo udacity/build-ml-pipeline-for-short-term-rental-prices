@@ -133,13 +133,11 @@ def plot_feature_importance(pipe, feat_names):
     # For the NLP feature we sum across all the TF-IDF dimensions into a global
     # NLP importance
     nlp_importance = sum(pipe["random_forest"].feature_importances_[len(feat_names) - 1:])
-    feat_imp = np.append(feat_imp, nlp_importance)
-    fig_feat_imp, sub_feat_imp = plt.subplots(figsize=(10, 10))
-    # idx = np.argsort(feat_imp)[::-1]
-    sub_feat_imp.bar(range(feat_imp.shape[0]), feat_imp, color="r", align="center")
-    _ = sub_feat_imp.set_xticks(range(feat_imp.shape[0]))
-    _ = sub_feat_imp.set_xticklabels(np.array(feat_names), rotation=90)
-    fig_feat_imp.tight_layout()
+    feat_imp = np.asarray(np.append(feat_imp, nlp_importance))  # Using np.asarray for future compatibility
+    fig_feat_imp, sub_feat_imp = plt.subplots(figsize=(10, 10), layout='constrained')  # Using constrained layout
+    sub_feat_imp.bar(np.arange(feat_imp.shape[0]), feat_imp, color="r", align="center")
+    sub_feat_imp.set_xticks(np.arange(feat_imp.shape[0]))
+    sub_feat_imp.set_xticklabels(feat_names, rotation=90)
     return fig_feat_imp
 
 

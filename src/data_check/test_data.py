@@ -24,10 +24,10 @@ def test_column_names(data):
         "availability_365",
     ]
 
-    these_columns = data.columns.values
+    these_columns = data.columns.to_numpy()  # Using to_numpy() for better performance
 
     # This also enforces the same order
-    assert list(expected_colums) == list(these_columns)
+    assert np.array_equal(expected_colums, these_columns)  # Using numpy comparison for better performance
 
 
 def test_neighborhood_names(data):
