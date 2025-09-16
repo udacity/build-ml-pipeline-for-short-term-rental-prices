@@ -45,7 +45,7 @@ Please ensure you are using one of the supported OS versions to avoid compatibil
 
 ### Python Requirement
 
-This project requires **Python 3.10**. Please ensure that you have Python 3.10 installed and set as the default version in your environment to avoid any runtime issues.
+This project requires **Python 3.13**. Please ensure that you have Python 3.13 installed and set as the default version in your environment to avoid any runtime issues.
 
 ### Fork the Starter kit
 Go to [https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices.git](https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices.git)
@@ -418,12 +418,6 @@ step with:
 > mlflow run . -P steps="data_check"
 ```
 
-You can safely ignore the following DeprecationWarning if you see it:
-
-```
-DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' 
-is deprecated since Python 3.3, and in 3.10 it will stop working
-```
 
 ### Data splitting
 Use the provided component called ``train_val_test_split`` to extract and segregate the test set. 
