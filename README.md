@@ -45,11 +45,11 @@ Please ensure you are using one of the supported OS versions to avoid compatibil
 
 ### Python Requirement
 
-This project requires **Python 3.12.7**. Please ensure that you have Python 3.12.7 installed and set as the default version in your environment to avoid any runtime issues.
+This project requires **Python 3.13**. Please ensure that you have Python 3.13 installed and set as the default version in your environment to avoid any runtime issues.
 
 ### Quick Start with GitHub Codespaces (Recommended)
 
-The easiest way to get started is using **GitHub Codespaces**, which provides a pre-configured development environment with Python 3.12.7, MLflow, and all dependencies already set up.
+The easiest way to get started is using **GitHub Codespaces**, which provides a pre-configured development environment with Python 3.13, MLflow, and all dependencies already set up.
 
 See **[CODESPACES_QUICKSTART.md](CODESPACES_QUICKSTART.md)** for detailed setup instructions.
 

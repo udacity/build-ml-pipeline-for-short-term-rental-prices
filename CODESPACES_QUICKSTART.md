@@ -67,7 +67,7 @@ Before creating your codespace, you need to choose which branch to work from:
 **First-time Setup Time:**
 - With prebuild: ~30-60 seconds
 - Without prebuild: ~2-3 minutes
-- The environment will auto-configure with Python 3.12.7, conda, MLflow, and W&B
+- The environment will auto-configure with Python 3.13, conda, MLflow, and W&B
 
 **Pro Tips:**
 
@@ -137,7 +137,7 @@ The `nyc_airbnb_dev` conda environment is configured to auto-activate in new ter
   NYC Airbnb ML Pipeline - Codespace
 ==========================================
 
-Environment: Python 3.12.7, MLflow 3.3.2
+Environment: Python 3.13, MLflow 3.3.2
 Disk Space: XXG available
 
 Quick Start:
@@ -153,7 +153,7 @@ Docs: README.md | CODESPACES_QUICKSTART.md
 # Check active environment (should show * next to nyc_airbnb_dev)
 conda env list
 
-# Verify Python version (should be 3.12.7)
+# Verify Python version (should be 3.13)
 python --version
 
 # Verify MLflow version (should be 3.3.2)
@@ -169,7 +169,7 @@ conda activate nyc_airbnb_dev
 ### Environment Details
 
 - **Name**: `nyc_airbnb_dev`
-- **Python**: 3.12.7
+- **Python**: 3.13
 - **Key Packages**: MLflow 3.3.2, W&B 0.24.0, pandas 2.3.2, scikit-learn 1.7.2
 - **Location**: `/opt/conda/envs/nyc_airbnb_dev`
 
