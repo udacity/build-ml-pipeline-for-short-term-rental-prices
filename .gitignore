@@ -123,9 +123,3 @@ uv.lock
 
 # Data directory (local datasets)
 data/
-
-# Claude Code / Serena AI assistant files
-.claude/
-.serena/
-CLAUDE.md
-SETUP_AND_EXECUTION_GUIDE.md
