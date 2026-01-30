@@ -4,7 +4,25 @@ set -e
 echo "🔧 Running post-create setup..."
 
 source /opt/conda/etc/profile.d/conda.sh
-conda activate ml_workflow_base
+
+# Initialize conda for the vscode user (idempotent - safe to run multiple times)
+echo ""
+echo "🔧 Initializing conda for user shells..."
+if ! grep -q "conda initialize" ~/.bashrc 2>/dev/null; then
+    /opt/conda/bin/conda init bash
+    echo "✓ Conda initialized for bash"
+else
+    echo "✓ Conda already initialized for bash"
+fi
+
+if ! grep -q "conda initialize" ~/.zshrc 2>/dev/null; then
+    /opt/conda/bin/conda init zsh
+    echo "✓ Conda initialized for zsh"
+else
+    echo "✓ Conda already initialized for zsh"
+fi
+
+conda activate nyc_airbnb_dev
 
 # Verify installations
 python --version
@@ -45,10 +63,10 @@ echo "🔧 Configuring shell auto-activation..."
 # Configure for zsh (default terminal)
 if [ -f ~/.zshrc ]; then
     # Check if already configured (avoid duplicates on rebuilds)
-    if ! grep -q "conda activate ml_workflow_base" ~/.zshrc; then
+    if ! grep -q "conda activate nyc_airbnb_dev" ~/.zshrc; then
         echo "" >> ~/.zshrc
-        echo "# Auto-activate ml_workflow_base conda environment" >> ~/.zshrc
-        echo "conda activate ml_workflow_base 2>/dev/null || true" >> ~/.zshrc
+        echo "# Auto-activate nyc_airbnb_dev conda environment" >> ~/.zshrc
+        echo "conda activate nyc_airbnb_dev 2>/dev/null || true" >> ~/.zshrc
         echo "" >> ~/.zshrc
         echo "# Welcome message (only show for interactive shells)" >> ~/.zshrc
         echo 'if [[ $- == *i* ]] && [[ -z "$CODESPACE_WELCOME_SHOWN" ]]; then' >> ~/.zshrc
@@ -74,14 +92,13 @@ if [ -f ~/.zshrc ]; then
     else
         echo "✓ Zsh auto-activation already configured"
     fi
-fi
 
 # Configure for bash (fallback)
-if [ -f ~/.bashrc ]; then
-    if ! grep -q "conda activate ml_workflow_base" ~/.bashrc; then
+elif [ -f ~/.bashrc ]; then
+    if ! grep -q "conda activate nyc_airbnb_dev" ~/.bashrc; then
         echo "" >> ~/.bashrc
-        echo "# Auto-activate ml_workflow_base conda environment" >> ~/.bashrc
-        echo "conda activate ml_workflow_base 2>/dev/null || true" >> ~/.bashrc
+        echo "# Auto-activate nyc_airbnb_dev conda environment" >> ~/.bashrc
+        echo "conda activate nyc_airbnb_dev 2>/dev/null || true" >> ~/.bashrc
         echo "" >> ~/.bashrc
         echo "# Welcome message (only show for interactive shells)" >> ~/.bashrc
         echo 'if [[ $- == *i* ]] && [[ -z "$CODESPACE_WELCOME_SHOWN" ]]; then' >> ~/.bashrc

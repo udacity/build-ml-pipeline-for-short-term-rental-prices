@@ -2,11 +2,70 @@
 
 Welcome to the ML Pipeline Project Codespace! This guide will help you get started in 5 minutes.
 
+## Table of Contents
+
+- [Quick Decision Guide](#quick-decision-guide)
+  - [Your Learning Journey](#your-learning-journey)
+- [First Time Setup](#first-time-setup)
+  - [1. Create Your Codespace](#1-create-your-codespace)
+    - [Choosing Your Branch](#choosing-your-branch)
+    - [Switching Branches After Creation](#switching-branches-after-creation)
+  - [2. Add Your Weights & Biases API Key](#2-add-your-weights--biases-api-key)
+  - [3. Verify Setup](#3-verify-setup)
+- [Resuming Your Codespace](#resuming-your-codespace)
+  - [How to Find Your Codespaces](#how-to-find-your-codespaces)
+  - [Understanding Codespace States](#understanding-codespace-states)
+  - [Resuming an Active Codespace](#resuming-an-active-codespace)
+  - [Restarting a Stopped Codespace](#restarting-a-stopped-codespace)
+  - [Managing Multiple Codespaces](#managing-multiple-codespaces)
+  - [What Gets Preserved vs Lost](#what-gets-preserved-vs-lost)
+  - [Quick Reference Commands](#quick-reference-commands)
+- [Terminal Setup](#terminal-setup)
+  - [Default Shell](#default-shell)
+  - [Conda Environment Auto-Activation](#conda-environment-auto-activation)
+  - [Environment Details](#environment-details)
+- [Working with the Project](#working-with-the-project)
+  - [Project Structure](#project-structure)
+  - [Quick Start Workflow](#quick-start-workflow)
+    - [Run Pre-Built Steps](#run-pre-built-steps)
+    - [Implement Required Components](#implement-required-components)
+    - [Run Specific Steps](#run-specific-steps)
+    - [Run Full Pipeline (After Implementation)](#run-full-pipeline-after-implementation)
+    - [Hyperparameter Optimization](#hyperparameter-optimization)
+    - [Test Production Model](#test-production-model)
+- [Common Issues](#common-issues)
+  - ["WANDB_API_KEY not set"](#wandb_api_key-not-set)
+  - ["conda: command not found"](#conda-command-not-found)
+  - ["Disk space full"](#disk-space-full)
+  - ["Attempted to fetch artifact without alias"](#attempted-to-fetch-artifact-without-alias)
+  - ["No module named 'basic_cleaning'"](#no-module-named-basic_cleaning)
+  - [Slow execution / timeouts](#slow-execution--timeouts)
+  - ["Your local changes would be overwritten by checkout"](#your-local-changes-would-be-overwritten-by-checkout)
+  - [Wrong branch / Need to start over](#wrong-branch--need-to-start-over)
+- [VS Code Tasks](#vs-code-tasks)
+- [Viewing Results](#viewing-results)
+  - [MLflow UI](#mlflow-ui)
+  - [Weights & Biases](#weights--biases)
+- [Jupyter Lab (EDA)](#jupyter-lab-eda)
+- [Github Codespaces Limits](#github-codespaces-limits)
+  - [Essential Habits](#essential-habits)
+  - [Machine Type Recommendations](#machine-type-recommendations)
+- [Tips & Best Practices](#tips--best-practices)
+  - [Environment Management](#environment-management)
+  - [Saving Your Work](#saving-your-work)
+  - [Configuration Management](#configuration-management)
+  - [Artifact Management Best Practices](#artifact-management-best-practices)
+  - [Port Forwarding](#port-forwarding)
+- [Getting Help](#getting-help)
+  - [Documentation](#documentation)
+  - [Common Commands Reference](#common-commands-reference)
+
 ## Quick Decision Guide
 
 **Choose your path:**
 
 - **First time here?** → Start with "First Time Setup" below
+- **Coming back to your work?** → See "Resuming Your Codespace"
 - **Environment not working?** → Jump to "Common Issues"
 - **Ready to start coding?** → Go to "Working with the Project"
 - **Need help with specific tasks?** → See "Student Implementation Tasks"
@@ -120,6 +179,174 @@ After rebuild, check the terminal output. You should see:
 ✓ WANDB_API_KEY found
 ✓ W&B login successful!
 ```
+
+---
+
+## Resuming Your Codespace
+
+After you've created your Codespace and started working, you may need to navigate away from GitHub or close your browser. This section explains how to get back to your work and what to expect when resuming.
+
+### How to Find Your Codespaces
+
+**To access your existing Codespaces:**
+
+1. Go to [GitHub.com](https://github.com)
+2. Click on your **profile picture** (top-right corner)
+3. Select **"Your codespaces"** from the dropdown menu
+   - Or navigate directly to: `https://github.com/codespaces`
+4. You'll see a list of all your Codespaces with their status
+
+**Alternative access method:**
+- From any repository, click the green **"Code"** button → **"Codespaces"** tab
+- Shows Codespaces for that repository only
+
+### Understanding Codespace States
+
+Your Codespace can be in one of two states:
+
+| State | Description | Resource Usage | Visual Indicator |
+|-------|-------------|----------------|------------------|
+| **Active** | Currently running and ready to use | Consuming core-hours | 🟢 Green dot |
+| **Stopped** | Paused, not running | No core-hours consumed | ⚫ Gray dot |
+
+**Important**: Active Codespaces consume your monthly core-hour quota even when you're not actively using them. Always stop Codespaces when taking breaks!
+
+### Resuming an Active Codespace
+
+If your Codespace is still running (Active state):
+
+1. Click on the **Codespace name** from the list
+2. Your browser opens a new tab/window
+3. Codespace loads within 2-3 seconds
+4. **Everything is preserved**:
+   - Terminal history and command state
+   - Running processes (MLflow UI, Jupyter servers)
+   - Uncommitted file changes
+   - Conda environment activation
+   - W&B authentication
+
+**Pro tip**: Bookmark your Codespace URL for instant access!
+
+### Restarting a Stopped Codespace
+
+If your Codespace has been stopped (either manually or by auto-timeout):
+
+1. Find the stopped Codespace in your list
+2. Click the **three-dot menu (...)** next to the Codespace name
+3. Select **"Open in browser"** (or click the Codespace name)
+4. Wait 10-15 seconds for restart
+5. The `postStartCommand` runs automatically (activates conda, checks W&B)
+
+**What's preserved after stop:**
+- ✅ All file changes (committed or uncommitted)
+- ✅ Conda environments you created
+- ✅ W&B authentication
+- ✅ Git branches and repository state
+- ✅ VS Code settings and extensions
+
+**What's NOT preserved:**
+- ❌ Running processes (MLflow UI, Jupyter servers)
+- ❌ Terminal history and state
+- ❌ Port forwarding sessions
+
+**After restart, you may need to:**
+```bash
+# Verify conda environment is active
+conda info --envs
+
+# Restart MLflow UI if you were using it
+mlflow ui
+
+# Restart Jupyter Lab if you were using it
+mlflow run src/eda
+```
+
+### Managing Multiple Codespaces
+
+**Best Practice**: Use one Codespace and switch git branches instead of creating multiple Codespaces.
+
+**Why?**
+- Saves core-hours (only one running instance)
+- Faster than creating new Codespace each time
+- Easier to manage and track work
+
+**How to manage:**
+
+```bash
+# Switch between branches in your Codespace
+git checkout main
+git checkout -b feature-branch
+git checkout exercise-2
+
+# View all branches
+git branch -a
+```
+
+**Stopping unused Codespaces:**
+1. Go to your Codespaces list
+2. Click three-dot menu (...) → **"Stop codespace"**
+3. Codespace enters Stopped state (preserves work, stops billing)
+
+**Deleting old Codespaces:**
+1. Click three-dot menu (...) → **"Delete"**
+2. Confirm deletion
+3. **Warning**: All uncommitted changes are permanently lost!
+4. **Always commit and push your work before deleting!**
+
+### What Gets Preserved vs Lost
+
+Understanding what persists helps you work confidently:
+
+| Item | After Stop | After Delete | Notes |
+|------|------------|--------------|-------|
+| Committed code | ✅ Preserved | ❌ Lost locally | Safe if pushed to GitHub |
+| Uncommitted changes | ✅ Preserved | ❌ Lost forever | Commit before deleting! |
+| Conda environments | ✅ Preserved | ❌ Lost | Easy to recreate from YAML |
+| W&B authentication | ✅ Preserved | ❌ Lost | Re-authenticates on new Codespace |
+| Running processes | ❌ Lost | ❌ Lost | Restart MLflow, Jupyter manually |
+| Terminal history | ❌ Lost | ❌ Lost | Use git log for command reference |
+| MLflow experiments | ✅ In W&B | ✅ In W&B | Stored in cloud, always safe |
+| W&B artifacts | ✅ In W&B | ✅ In W&B | Stored in cloud, always safe |
+
+**Golden Rule**: Commit and push your work frequently. If it's not in GitHub or W&B, it can be lost!
+
+### Quick Reference Commands
+
+After resuming a Codespace, use these commands to verify your environment:
+
+```bash
+# Check active conda environment (should show nyc_airbnb_dev)
+conda info --envs
+
+# Verify Python and key packages
+python --version
+mlflow --version
+wandb --version
+
+# Check W&B authentication
+wandb whoami
+
+# Re-authenticate W&B if needed
+wandb login
+
+# Check git status
+git status
+git branch
+
+# Check disk space
+df -h /workspaces
+
+# Restart MLflow UI (if you were using it)
+mlflow ui --host 0.0.0.0 &
+
+# View running processes
+ps aux | grep python
+```
+
+**Quick troubleshooting:**
+- **Environment not activated?** → `conda activate nyc_airbnb_dev`
+- **W&B not authenticated?** → `wandb login` (uses your GitHub Codespaces secret)
+- **Port forwarding not working?** → Check "Ports" tab in VS Code, restart process
 
 ---
 
@@ -248,12 +475,23 @@ mlflow run . -P steps=test_regression_model
 3. Rebuild your container (`Cmd+Shift+P` → "Rebuild Container")
 
 ### "conda: command not found"
-**Problem**: Conda not activated
-**Solution**: The base environment should activate automatically. If not:
-```bash
-source /opt/conda/etc/profile.d/conda.sh
-conda activate nyc_airbnb_dev
-```
+**Problem**: Conda not activated or initialized
+
+**Note**: As of this setup, conda is automatically initialized for both bash and zsh shells. The `nyc_airbnb_dev` environment is also configured to auto-activate when you open a new terminal. You should not need to manually run `conda init` or source the conda script.
+
+**Solution**: If you still encounter this error, try these steps:
+
+1. **Open a fresh terminal** (the initialization runs on new terminal sessions)
+2. **If that doesn't work**, manually activate:
+   ```bash
+   source /opt/conda/etc/profile.d/conda.sh
+   conda activate nyc_airbnb_dev
+   ```
+3. **If conda is truly not initialized**, run (one-time only):
+   ```bash
+   conda init $(basename "$SHELL")
+   ```
+   Then close and reopen your terminal.
 
 ### "Disk space full"
 **Problem**: Too many conda environments created by MLflow
