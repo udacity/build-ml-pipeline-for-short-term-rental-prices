@@ -1,4 +1,4 @@
-name: download_file
+name: train_val_test_split
 conda_env: conda.yml
 
 entry_points:

@@ -47,6 +47,14 @@ Please ensure you are using one of the supported OS versions to avoid compatibil
 
 This project requires **Python 3.13**. Please ensure that you have Python 3.13 installed and set as the default version in your environment to avoid any runtime issues.
 
+### Quick Start with GitHub Codespaces (Recommended)
+
+The easiest way to get started is using **GitHub Codespaces**, which provides a pre-configured development environment with Python 3.13, MLflow, and all dependencies already set up.
+
+See **[CODESPACES_QUICKSTART.md](CODESPACES_QUICKSTART.md)** for detailed setup instructions.
+
+**Benefits**: Zero local setup, consistent environment, free tier available (60-180 core-hours/month).
+
 ### Fork the Starter kit
 Go to [https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices.git](https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices.git)
 and click on `Fork` in the upper right corner. This will create a fork in your Github account, i.e., a copy of the
@@ -74,18 +82,25 @@ file provided in the root of the repository and activate it:
 ```
 
 ### Get API key for Weights and Biases
-Let's make sure we are logged in to Weights & Biases. Get your API key from W&B by going to 
-[https://wandb.ai/authorize](https://wandb.ai/authorize) and click on the + icon (copy to clipboard), 
+Let's make sure we are logged in to Weights & Biases. Get your **v1 API key** from W&B by going to
+[https://wandb.ai/authorize](https://wandb.ai/authorize) and click on the + icon (copy to clipboard),
 then paste your key into this command:
 
 ```bash
 > wandb login [your API key]
 ```
 
+**Note:** This project uses wandb 0.24.0, which supports the new secure v1 API key format (`wandb_v1_...`, 86 characters). Legacy 40-character keys are being phased out.
+
 You should see a message similar to:
 ```
 wandb: Appending key for api.wandb.ai to your netrc file: /home/[your username]/.netrc
 ```
+
+### Create your Experiment
+
+To manually create and run a new MLflow experiment, use the command `mlflow run . --experiment-name [your_experiment_name]` from your project directory. Replace `[your_experiment_name]` with your desired name; this will initialize a new experiment if it does not already exist.
+
 
 ### Cookie cutter
 In order to make your job a little easier, you are provided a cookie cutter template that you can use to create 
@@ -195,11 +210,15 @@ You can see the parameters that they require by looking into their `MLproject` f
 
 ## Instructions
 
+**Important Documentation:**
+
+- **[CODESPACES_QUICKSTART.md](CODESPACES_QUICKSTART.md)** - GitHub Codespaces setup and usage guide
+
 The pipeline is defined in the ``main.py`` file in the root of the starter kit. The file already
 contains some boilerplate code as well as the download step. Your task will be to develop the
 needed additional step, and then add them to the ``main.py`` file.
 
-__*NOTE*__: the modeling in this exercise should be considered a baseline. We kept the data cleaning and the modeling 
+__*NOTE*__: the modeling in this exercise should be considered a baseline. We kept the data cleaning and the modeling
 simple because we want to focus on the MLops aspect of the analysis. It is possible with a little more effort to get
 a significantly-better model for this dataset.
 
@@ -229,7 +248,7 @@ notebook can be understood by other people like your colleagues
    ```bash
    > mlflow run src/eda
    ```
-   This will install Jupyter and all the dependencies for `pandas-profiling`, and open a Jupyter notebook instance.
+   This will install Jupyter and all the dependencies for `ydata-profiling` (formerly pandas-profiling), and open a Jupyter notebook instance.
    Click on New -> Python 3 and create a new notebook. Rename it `EDA` by clicking on `Untitled` at the top, beside the
    Jupyter logo.
 3. Within the notebook, fetch the artifact we just created (``sample.csv``) from W&B and read 
@@ -246,11 +265,11 @@ notebook can be understood by other people like your colleagues
     Note that we use ``save_code=True`` in the call to ``wandb.init`` so the notebook is uploaded and versioned
     by W&B.
 
-4. Using `pandas-profiling`, create a profile:
+4. Using `ydata-profiling`, create a profile:
    ```python
-   import pandas_profiling
-   
-   profile = pandas_profiling.ProfileReport(df)
+   from ydata_profiling import ProfileReport
+
+   profile = ProfileReport(df)
    profile.to_widgets()
    ```
    what do you notice? Look around and see what you can find. 
@@ -331,16 +350,16 @@ with the cleaned data:
     run.log_artifact(artifact)
    ```
    
-   **_REMEMBER__**: Whenever you are using a library (like pandas), you MUST add it as 
-                    dependency in the ``conda.yml`` file. For example, here we are using pandas 
+   **_REMEMBER__**: Whenever you are using a library (like pandas), you MUST add it as
+                    dependency in the ``conda.yml`` file. For example, here we are using pandas
                     so we must add it to ``conda.yml`` file, including a version:
    ```yaml
    dependencies:
-     - pip=23.3.1
-     - pandas=2.1.3
+     - pip=24.3.1
+     - pandas=2.3.2
      - pip:
-         - mlflow==2.8.1
-         - wandb==0.16.0
+         - mlflow==3.3.2
+         - wandb==0.24.0
    ```
    
 4. Add the ``basic_cleaning`` step to the pipeline (the ``main.py`` file):
@@ -511,7 +530,7 @@ You can now go to W&B, go the Artifacts section, select the model export artifac
 ``Graph view`` tab. You will see a representation of your pipeline.
 
 ### Release the pipeline
-First copy the best hyper parameters you found in your ``configuration.yml`` so they become the
+First copy the best hyper parameters you found in your ``config.yaml`` so they become the
 default values. Then, go to your repository on GitHub and make a release. 
 If you need a refresher, here are some [instructions](https://docs.github.com/en/github/administering-a-repository/managing-releases-in-a-repository#creating-a-release)
 on how to release on GitHub.

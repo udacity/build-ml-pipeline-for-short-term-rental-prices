@@ -1,4 +1,4 @@
-name: download_file
+name: train_random_forest
 conda_env: conda.yml
 
 entry_points:

@@ -1,0 +1,54 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Cleanup MLflow Environments",
+      "type": "shell",
+      "command": "bash .devcontainer/scripts/cleanup-mlflow-envs.sh",
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Run Full Pipeline",
+      "type": "shell",
+      "command": "mlflow run .",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Run Download Step",
+      "type": "shell",
+      "command": "mlflow run . -P steps=download"
+    },
+    {
+      "label": "Run Basic Cleaning Step",
+      "type": "shell",
+      "command": "mlflow run . -P steps=basic_cleaning"
+    },
+    {
+      "label": "Run Data Check Step",
+      "type": "shell",
+      "command": "mlflow run . -P steps=data_check"
+    },
+    {
+      "label": "Run Train Random Forest Step",
+      "type": "shell",
+      "command": "mlflow run . -P steps=train_random_forest"
+    },
+    {
+      "label": "Run Test Regression Model Step",
+      "type": "shell",
+      "command": "mlflow run . -P steps=test_regression_model"
+    },
+    {
+      "label": "Open Jupyter Lab (EDA)",
+      "type": "shell",
+      "command": "mlflow run src/eda"
+    }
+  ]
+}

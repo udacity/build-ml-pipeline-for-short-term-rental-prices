@@ -53,7 +53,7 @@ def go(args):
 
     ######################################
     # Use run.use_artifact(...).file() to get the train and validation artifact (args.trainval_artifact)
-    # and save the returned path in train_local_path
+    # and save the returned path in trainval_local_path
     trainval_local_path = # YOUR CODE HERE
     ######################################
 
@@ -224,6 +224,7 @@ def get_inference_pipeline(rf_config, max_tfidf_features):
     # with the random forest instance that we just saved in the `random_forest` variable.
     # HINT: Use the explicit Pipeline constructor so you can assign the names to the steps, do not use make_pipeline
     sk_pipe = # YOUR CODE HERE
+    ######################################
 
     return sk_pipe, processed_features
 

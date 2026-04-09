@@ -7,7 +7,7 @@ setup(
     description="Utilities for interacting with Weights and Biases and mlflow",
     zip_safe=False,  # avoid eggs, which make the handling of package data cumbersome
     packages=["wandb_utils"],
-    python_requires='>=3.13',
+    python_requires='>=3.13,<3.14',
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.13",
