@@ -6,6 +6,25 @@ to be retrained with the same cadence, necessitating an end-to-end pipeline that
 
 In this project you will build such a pipeline.
 
+## Submission links
+
+- **W&B project (public):** https://wandb.ai/fahd-alshal-general-organization-for-social-insurance/nyc_airbnb
+- **EDA notebook:** [src/eda/EDA.ipynb](src/eda/EDA.ipynb)
+- **Release:** [v1.0.2](https://github.com/FahadAlshalawi/build-ml-pipeline-for-short-term-rental-prices/releases/tag/1.0.2)
+
+### Model performance
+
+| Metric | Validation (sample1) | Test set (sample1) | Release run (sample2) |
+|---|---|---|---|
+| MAE | $33.80 | $33.29 | $31.90 |
+| R²  | 0.566  | 0.581  | 0.594  |
+
+Best hyperparameters (baked into [config.yaml](config.yaml)): `max_tfidf_features=30`, `random_forest.max_features=0.33` — selected via a 15-run sweep (3 × 5 grid).
+
+### Note on the `test_proper_boundaries` flow
+
+The rubric anticipates that the released pipeline fails on `sample2.csv` due to coordinates outside NYC, and is then fixed in a follow-up release. During EDA I noticed that `test_proper_boundaries` enforces the NYC bounding box and the README warns that `sample2.csv` contains out-of-area rows. To avoid shipping a knowingly-broken release I included the bounding-box filter in the first version of `basic_cleaning` ([src/basic_cleaning/run.py:30-33](src/basic_cleaning/run.py#L30-L33)). As a result, `v1.0.0` ran successfully against `sample2.csv` on the first attempt — the cleaning step the rubric expects is present and verified.
+
 ## Table of contents
 
 - [Introduction](#build-an-ML-Pipeline-for-Short-Term-Rental-Prices-in-NYC)

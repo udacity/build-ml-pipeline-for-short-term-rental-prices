@@ -10,5 +10,5 @@ dependencies:
   - pandas=2.3.2
   - pip:
       - mlflow==3.3.2
-      - wandb==0.21.3
+      - wandb==0.26.1
       - -e ..
