@@ -13,4 +13,4 @@ dependencies:
   - ipywidgets=8.1.7
   - pip:
       - mlflow==3.3.2
-      - wandb==0.21.3
+      - wandb==0.27.3
