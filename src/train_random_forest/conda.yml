@@ -1,7 +1,7 @@
 name: basic_cleaning
 channels:
+  - nodefaults
   - conda-forge
-  - defaults
 dependencies:
   - python=3.13
   - hydra-core=1.3.2
@@ -11,4 +11,4 @@ dependencies:
   - scikit-learn=1.7.2
   - pip:
       - mlflow==3.3.2
-      - wandb==0.21.3
+      - wandb==0.27.2

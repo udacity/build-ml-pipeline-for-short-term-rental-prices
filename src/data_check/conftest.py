@@ -13,7 +13,7 @@ def pytest_addoption(parser):
 
 @pytest.fixture(scope='session')
 def data(request):
-    run = wandb.init(job_type="data_tests", resume=True)
+    run = wandb.init(project="nyc_airbnb", job_type="data_tests", resume=True)
 
     # Download input artifact. This will also note that this script is using this
     # particular version of the artifact
@@ -29,7 +29,7 @@ def data(request):
 
 @pytest.fixture(scope='session')
 def ref_data(request):
-    run = wandb.init(job_type="data_tests", resume=True)
+    run = wandb.init(project="nyc_airbnb", job_type="data_tests", resume=True)
 
     # Download input artifact. This will also note that this script is using this
     # particular version of the artifact

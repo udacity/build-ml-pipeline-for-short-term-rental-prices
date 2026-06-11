@@ -8,5 +8,5 @@ dependencies:
   - requests=2.31.0
   - pip:
       - mlflow==3.3.2
-      - wandb==0.21.3
+      - wandb==0.27.3
       - -e ..

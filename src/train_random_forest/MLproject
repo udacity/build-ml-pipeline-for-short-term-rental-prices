@@ -1,4 +1,4 @@
-name: download_file
+name: train_random_forest
 conda_env: conda.yml
 
 entry_points:
@@ -35,6 +35,7 @@ entry_points:
       output_artifact:
         description: Name for the output artifact
         type: string
+        default: 'random_forest_export'
 
     command: >-
       python run.py --trainval_artifact {trainval_artifact} \
