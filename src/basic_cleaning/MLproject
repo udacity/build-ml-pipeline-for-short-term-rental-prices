@@ -1,0 +1,38 @@
+name: basic_cleaning
+conda_env: conda.yml
+
+entry_points:
+  main:
+    parameters:
+
+      input_artifact:
+        description: Fully-qualified name of the raw input artifact to download from W&B (e.g. "sample.csv:latest")
+        type: string
+
+      output_artifact:
+        description: Name for the cleaned output artifact that will be uploaded to W&B
+        type: string
+
+      output_type:
+        description: Type to assign to the output artifact (e.g. "clean_sample")
+        type: string
+
+      output_description:
+        description: A free-text description of the output artifact
+        type: string
+
+      min_price:
+        description: Minimum accepted price. Rows with a price below this value are dropped
+        type: float
+
+      max_price:
+        description: Maximum accepted price. Rows with a price above this value are dropped
+        type: float
+
+    command: >-
+      python run.py --input_artifact {input_artifact} \
+                    --output_artifact {output_artifact} \
+                    --output_type {output_type} \
+                    --output_description {output_description} \
+                    --min_price {min_price} \
+                    --max_price {max_price}
