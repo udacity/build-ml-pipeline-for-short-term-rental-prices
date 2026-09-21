@@ -11,7 +11,7 @@ In this project you will build such a pipeline.
 - [Introduction](#build-an-ML-Pipeline-for-Short-Term-Rental-Prices-in-NYC)
 - [Preliminary steps](#preliminary-steps)
   * [Choose where to work](#choose-where-to-work)
-  * [Fork the Starter Kit](#fork-the-starter-kit)
+  * [Create your repository](#create-your-repository)
   * [Create environment](#create-environment)
   * [Get API key for Weights and Biases](#get-api-key-for-weights-and-biases)
   * [Cookie cutter](#cookie-cutter)
@@ -58,27 +58,45 @@ You can complete the project in the classroom Workspace or in a local clone:
 - **Classroom Workspace:** open the repository in the Workspace, choose the preinstalled `ml` notebook kernel,
   and confirm that it reports Python 3.13.x. The Workspace environment is already prepared; do not recreate it
   from `environment.yml`.
-- **Local computer:** fork and clone the starter, install conda, and create the development environment as
-  described below. Run commands from the repository root unless a step says otherwise.
+- **Local computer:** create and clone your selected source repository, install conda, and create the development
+  environment as described below. Run commands from the repository root unless a step says otherwise.
 
 Both routes produce the same repository artifacts. In particular, save the EDA notebook as `EDA.ipynb` in the
 repository root and use [`notes.md`](notes.md) as its completion checklist.
 
-### Fork the Starter kit
-Go to [https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices.git](https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices.git)
-and click on `Fork` in the upper right corner. This will create a fork in your Github account, i.e., a copy of the
-repository that is under your control. Now clone the repository locally so you can start working on it:
+### Create your repository
 
-```
-git clone https://github.com/[your github username]/build-ml-pipeline-for-short-term-rental-prices.git
+Choose GitHub or Azure Repos for your project source repository. This choice is independent of whether you work in
+the classroom Workspace or on your local computer.
+
+For GitHub, open the
+[official public starter repository](https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices.git)
+and click **Fork**. Then clone your fork:
+
+```bash
+git clone https://github.com/<your-github-username>/build-ml-pipeline-for-short-term-rental-prices.git
 ```
 
-and go into the repository:
+For Azure Repos, use **Import repository** to import the same official public starter URL:
 
+```text
+https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices.git
 ```
+
+Then copy the clone URL from your imported Azure repository and clone that repository:
+
+```bash
+git clone <your-azure-repos-clone-url> build-ml-pipeline-for-short-term-rental-prices
+```
+
+Use your platform's normal Git authentication flow. Do not embed a personal access token, password, or other secret
+in the repository URL. Enter the cloned repository:
+
+```bash
 cd build-ml-pipeline-for-short-term-rental-prices
 ```
-Commit and push to the repository often while you make progress towards the solution. Remember 
+
+Commit and push to your selected source repository often while you make progress towards the solution. Remember
 to add meaningful commit messages.
 
 ### Create environment
@@ -375,9 +393,9 @@ with the cleaned data:
     run.log_artifact(artifact)
    ```
    
-   **_REMEMBER__**: A component must declare every library it imports. Pandas is already included in
-   `src/basic_cleaning/conda.yml` alongside the scaffold's base dependencies. If your implementation imports another
-   library, add only that dependency and choose a version compatible with this component environment.
+   **_REMEMBER__**: A component must declare every library it imports. When you add the pandas import for your
+   cleaning implementation, add a compatible version pin such as `pandas=2.3.2` to
+   `src/basic_cleaning/conda.yml`. Preserve the scaffold's existing Python, MLflow, and W&B dependencies.
    
 4. Add the ``basic_cleaning`` step to the pipeline (the ``main.py`` file):
 
@@ -387,8 +405,8 @@ with the cleaned data:
    of the starter kit. You will have to do the same for every step you are going to add to the 
    pipeline.
    
-   **_NOTE_**: Remember that when you refer to an artifact stored on W&B, you MUST specify a 
-               version or a tag. For example, here the ``input_artifact`` should be 
+   **_NOTE_**: Remember that when you refer to an artifact stored on W&B, you MUST specify a
+               version or alias. For example, here the ``input_artifact`` should be
                ``sample.csv:latest`` and NOT just ``sample.csv``. If you forget to do this, 
                you will see a message like
                ``Attempted to fetch artifact without alias (e.g. "<artifact_name>:v3" or "<artifact_name>:latest")``
@@ -417,13 +435,13 @@ contain surprises.
 
 One of our tests will compare the distribution of the current data sample with a reference, 
 to ensure that there is no unexpected change. Therefore, we first need to define a 
-"reference dataset". We will just tag the latest ``clean_sample.csv`` artifact on W&B as our 
+"reference dataset". We will add the ``reference`` alias to the latest ``clean_sample.csv`` artifact version as our
 reference dataset. Go with your browser to ``wandb.ai``, navigate to your `nyc_airbnb` project, then to the
-artifact tab. Click on "clean_sample", then on the version with the ``latest`` tag. This is the
-last one we produced in the previous step. Add a tag ``reference`` to it by clicking the "+"
-in the Aliases section on the right:
+artifact tab. Open the ``clean_sample`` artifact type, select the ``clean_sample.csv`` artifact, then select its
+version with the ``latest`` alias. This is the last one we produced in the previous step. Add the ``reference``
+version alias by clicking the "+" in the Aliases section on the right:
 
-![reference tag](images/wandb-tag-data-test.png "adding a reference tag")
+![reference alias](images/wandb-tag-data-test.png "adding a reference alias")
  
 Now we are ready to add some tests. In the starter kit you can find a ``data_check`` step
 that you need to complete. Let's start by appending to 
@@ -443,7 +461,7 @@ name of the variables that your test takes in MUST BE exactly `data`, `min_price
 Now add the `data_check` component to the main file, so that it gets executed as part of our
 pipeline. Use ``clean_sample.csv:latest`` as ``csv`` and ``clean_sample.csv:reference`` as 
 ``ref``. Right now they point to the same file, but later on they will not: we will fetch another sample of data
-and therefore the `latest` tag will point to that. 
+and therefore the `latest` alias will point to that.
 Also, use the configuration for the other parameters. For example, 
 use ``config["data_check"]["kl_threshold"]`` for the ``kl_threshold`` parameter. 
 
@@ -524,7 +542,7 @@ based on [TF-IDF](https://monkeylearn.com/blog/what-is-tf-idf/) (term frequency-
 extract a good amount of information from the feature.
 
 Go to the artifact section of the selected job, and select the
-`random_forest_export` output artifact. Add a ``prod`` tag to it to mark it as
+`random_forest_export` output artifact. In its **Aliases** section, add the ``prod`` version alias to mark it as
 "production ready".
 
 ### Test
@@ -532,7 +550,7 @@ Use the provided step ``test_regression_model`` to test your production model ag
 test set. Implement the call to this component in the `main.py` file. As usual you can see the parameters in the
 corresponding [MLproject](https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices/blob/main/components/test_regression_model/MLproject) 
 file. Use the artifact `random_forest_export:prod` for the parameter `mlflow_model` and the test artifact
-`test_data.csv:latest` as `test_artifact`.
+`test_data.csv:latest` as `test_dataset`.
 
 **NOTE**: This step is NOT run by default when you run the pipeline. In fact, it needs the manual step
 of promoting a model to ``prod`` before it can complete successfully. Therefore, you have to
@@ -549,16 +567,19 @@ You can now go to W&B, open the Artifacts section, select the model export artif
 ### Release the pipeline
 First copy the best hyperparameters you found into ``config.yaml`` so they become the
 default values. Commit and push the final `config.yaml` and project code, then confirm that the intended final commit
-is present in GitHub and your working tree is clean. Create the annotated `1.0.0` tag from that commit before creating
-the GitHub release:
+is present in your selected source repository and your working tree is clean. Create and push the annotated `1.0.0`
+tag from that commit:
 
 ```bash
 git tag -a 1.0.0 -m "Release 1.0.0"
 git push origin 1.0.0
 ```
 
-Then create the GitHub release from the existing `1.0.0` tag. If you need a refresher, see GitHub's
-[release instructions](https://docs.github.com/en/github/administering-a-repository/managing-releases-in-a-repository#creating-a-release).
+If you use GitHub, create a GitHub release from the existing `1.0.0` tag. If you need a refresher, see GitHub's
+[release instructions](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository#creating-a-release).
+If you use Azure Repos, the pushed annotated tag is the release marker; follow the course's GitHub-to-Azure
+Translation Guide linked from the
+[classroom release lesson](https://learn.udacity.com/cd0581?lessonKey=5de3616a-fdf4-42b5-a3d1-5fabcc70e537&conceptKey=0aa75274-19f7-4726-853c-42e8ca129a8e&version=1.4&locale=en-us).
 
 ![tag the release](images/tag-release-github.png "tag the release")
 
@@ -567,13 +588,15 @@ new release from that tag. The submission archive must preserve these annotated 
 
 ### Train the model on a new data sample
 
-Let's now test that we can run the release using ``mlflow`` without any other pre-requisite. We will
-train the model on a new sample of data that our company received (``sample2.csv``):
+Let's now test that MLflow can run the release directly from your selected source repository. Use the clone URL for
+your GitHub fork or imported Azure repository. Configure access through the method documented for your selected
+platform; do not embed credentials in the URL. We will train the model on a new sample of data that our company
+received (``sample2.csv``):
 
 (be ready for a surprise, keep reading even if the command fails)
 ```bash
-> mlflow run https://github.com/[your github username]/build-ml-pipeline-for-short-term-rental-prices.git \
-             -v [the version you want to use, like 1.0.0] \
+> mlflow run <your-source-repository-clone-url> \
+             -v 1.0.0 \
              -P hydra_options="etl.sample='sample2.csv'"
 ```
 
@@ -593,42 +616,61 @@ df = df[idx].copy()
 ```
 This will drop rows in the dataset that are not in the proper geolocation. 
 
-Then commit your change, make a new release (for example ``1.0.1``) and retry (of course you need to use 
-``-v 1.0.1`` when calling mlflow this time). Now the run should succeed and voit la', 
+Then commit and push your change and create a second annotated release tag:
+
+```bash
+git tag -a 1.0.1 -m "Release 1.0.1"
+git push origin 1.0.1
+```
+
+GitHub users should also create a release from the `1.0.1` tag. Retry the remote MLflow command with
+``-v 1.0.1``. Now the run should succeed and voila,
 you have trained your new model on the new data.
 
 ## Submission
 
-Replace these fields in your copy of this README with your own links:
+Replace these fields in your copy of this README with your own links and platform choice:
 
 - **W&B project:** `https://wandb.ai/<username-or-team>/nyc_airbnb`
-- **GitHub repository:** `https://github.com/<username>/build-ml-pipeline-for-short-term-rental-prices`
+- **Source repository platform:** `GitHub` or `Azure Repos`
+- **Source repository:** your actual GitHub repository URL or Azure Repos URL
 
-Submit the same two links in **Submission Details**:
+Submit the same information in **Submission Details**:
 
 1. Your public W&B `nyc_airbnb` project.
-2. Your GitHub repository.
+2. Your selected source repository URL, identified as GitHub or Azure Repos.
 
-The GitHub repository can use any visibility allowed by the classroom, but the reviewer must be able to open it.
-Make the `nyc_airbnb` W&B project public. Enter both links in **Submission Details** even when the submission UI
-labels that field optional; these two links are required for review.
+Make the `nyc_airbnb` W&B project public. A GitHub repository must be accessible to the reviewer as required by the
+classroom. For the Azure ZIP route, the repository URL identifies the source and the ZIP supplies the review evidence;
+the Azure repository does not have to be public. Include both URLs in this README and in **Submission Details**, even
+when the submission UI labels that field optional; both links are required for review. Never embed secrets in either
+URL.
 
-If your classroom provides the Azure ZIP upload route, prepare the ZIP from a fresh clone of your final repository.
-Do not use GitHub's **Download ZIP**, because that download omits Git metadata. Fetch and verify the release tags,
-then archive the entire clone, including its `.git` directory:
+GitHub users submit the repository URL and its two releases directly. If you use the Azure ZIP upload route, prepare
+the ZIP from a fresh clone of the Azure repository URL you submitted. Do not use a generated source ZIP because it
+omits Git metadata. Fetch the history and tags, check repository integrity and cleanliness, and confirm that the
+remote URL is credential-free (it contains no embedded token or password). Authentication through your credential
+manager is allowed. Both release markers must be annotated tags. Then archive the entire clone, including its `.git`
+directory:
 
 ```bash
-git clone https://github.com/<username>/build-ml-pipeline-for-short-term-rental-prices.git nyc-airbnb-submission
+git clone <your-azure-repos-clone-url> nyc-airbnb-submission
 cd nyc-airbnb-submission
 git fetch --tags
+git remote get-url origin
+git status --porcelain
+git fsck --full
+git log --oneline --decorate -n 10
 git tag -n
 git cat-file -t 1.0.0  # This must print: tag
+git cat-file -t 1.0.1  # This must print: tag
 cd ..
 zip -r nyc-airbnb-submission.zip nyc-airbnb-submission
 ```
 
-Before uploading, inspect the ZIP and confirm that it contains `nyc-airbnb-submission/.git/` and the files from the
-release you intend the reviewer to assess.
+The `git status --porcelain` command should print nothing, and `git fsck --full` should report no integrity errors.
+Before uploading, inspect the ZIP and confirm that it contains `nyc-airbnb-submission/.git/`, both annotated release
+tags, their history, and the files from the release you intend the reviewer to assess.
 
 ## In case of errors
 
