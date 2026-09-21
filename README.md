@@ -10,6 +10,7 @@ In this project you will build such a pipeline.
 
 - [Introduction](#build-an-ML-Pipeline-for-Short-Term-Rental-Prices-in-NYC)
 - [Preliminary steps](#preliminary-steps)
+  * [Choose where to work](#choose-where-to-work)
   * [Fork the Starter Kit](#fork-the-starter-kit)
   * [Create environment](#create-environment)
   * [Get API key for Weights and Biases](#get-api-key-for-weights-and-biases)
@@ -29,7 +30,8 @@ In this project you will build such a pipeline.
   * [Visualize the pipeline](#visualize-the-pipeline)
   * [Release the pipeline](#release-the-pipeline)
   * [Train the model on a new data sample](#train-the-model-on-a-new-data-sample)
-- [Cleaning up](#cleaning-up)
+- [Submission](#submission)
+- [In case of errors](#in-case-of-errors)
 
 ## Preliminary steps
 
@@ -43,9 +45,24 @@ This project is compatible with the following operating systems:
 
 Please ensure you are using one of the supported OS versions to avoid compatibility issues.
 
-### Python Requirement
+### Python requirement
 
-This project requires **Python 3.13**. Please ensure that you have Python 3.13 installed and set as the default version in your environment to avoid any runtime issues.
+The development environment and pipeline components use **Python 3.13**. The EDA component has its own
+environment in `src/eda/conda.yml` and intentionally uses Python 3.12, which is compatible with its profiling
+dependencies. Do not change environment versions merely to make every file use the same Python version.
+
+### Choose where to work
+
+You can complete the project in the classroom Workspace or in a local clone:
+
+- **Classroom Workspace:** open the repository in the Workspace, choose the preinstalled `ml` notebook kernel,
+  and confirm that it reports Python 3.13.x. The Workspace environment is already prepared; do not recreate it
+  from `environment.yml`.
+- **Local computer:** fork and clone the starter, install conda, and create the development environment as
+  described below. Run commands from the repository root unless a step says otherwise.
+
+Both routes produce the same repository artifacts. In particular, save the EDA notebook as `EDA.ipynb` in the
+repository root and use [`notes.md`](notes.md) as its completion checklist.
 
 ### Fork the Starter kit
 Go to [https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices.git](https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices.git)
@@ -65,12 +82,43 @@ Commit and push to the repository often while you make progress towards the solu
 to add meaningful commit messages.
 
 ### Create environment
-Make sure to have conda installed and ready, then create a new environment using the ``environment.yml``
-file provided in the root of the repository and activate it:
+
+For local work, make sure conda is installed, then create and activate the development environment from the
+repository root:
 
 ```bash
-> conda env create -f environment.yml
-> conda activate nyc_airbnb_dev
+conda env create -f environment.yml
+conda activate nyc_airbnb_dev
+```
+
+The environment files have different roles:
+
+- `environment.yml` creates `nyc_airbnb_dev`, the environment used to edit the project and invoke MLflow.
+- The root `conda.yml` is the environment MLflow uses for the top-level pipeline when you run `mlflow run .`.
+- Each component has its own `conda.yml`. MLflow creates that component environment when the step runs. For
+  example, `src/eda/conda.yml` stays with the EDA component even though its notebook is saved at the repository root.
+
+Keep these environments separate. Existing version pins reflect the compatibility of each component and should
+only be changed to solve a reproduced dependency problem.
+
+The project should keep this root-level structure as you work:
+
+```text
+.
+├── README.md
+├── notes.md
+├── config.yaml
+├── environment.yml
+├── conda.yml
+├── MLproject
+├── main.py
+├── EDA.ipynb                  # created during the EDA
+├── components/               # reusable components supplied by the starter
+└── src/
+    ├── basic_cleaning/        # provided scaffold; complete its TODOs
+    ├── data_check/
+    ├── eda/
+    └── train_random_forest/
 ```
 
 ### Get API key for Weights and Biases
@@ -93,35 +141,37 @@ stubs for new pipeline components. It is not required that you use this, but it 
 boilerplate code. Just run the cookiecutter and enter the required information, and a new component 
 will be created including the `conda.yml` file, the `MLproject` file as well as the script. You can then modify these
 as needed, instead of starting from scratch.
-For example:
+For example, this creates a separate practice component:
 
 ```bash
-> cookiecutter cookie-mlflow-step -o src
+cookiecutter cookie-mlflow-step -o src
 
-step_name [step_name]: basic_cleaning
+step_name [step_name]: example_step
 script_name [run.py]: run.py
-job_type [my_step]: basic_cleaning
-short_description [My step]: This steps cleans the data
-long_description [An example of a step using MLflow and Weights & Biases]: Performs basic cleaning on the data and save the results in Weights & Biases
-parameters [parameter1,parameter2]: parameter1,parameter2,parameter3
+job_type [my_step]: example_step
+short_description [My step]: Practice MLflow step
+long_description [An example of a step using MLflow and Weights & Biases]: Practice component generated from the template
+parameters [parameter1,parameter2]: input_artifact,output_artifact
 ```
 
-This will create a step called ``basic_cleaning`` under the directory ``src`` with the following structure:
+This creates the following structure:
 
 ```bash
-> ls src/basic_cleaning/
+ls src/example_step/
 conda.yml  MLproject  run.py
 ```
 
 You can now modify the script (``run.py``), the conda environment (``conda.yml``) and the project definition 
 (``MLproject``) as you please.
 
-The script ``run.py`` will receive the input parameters ``parameter1``, ``parameter2``,
-``parameter3`` and it will be called like:
+The generated script receives `input_artifact` and `output_artifact` and can be called like:
 
 ```bash
-> mlflow run src/step_name -P parameter1=1 -P parameter2=2 -P parameter3="test"
+mlflow run src/example_step -P input_artifact="input:latest" -P output_artifact="output"
 ```
+
+The starter already includes `src/basic_cleaning`. Reuse it for the project. Generate that directory from the
+template only if it is genuinely absent from your starter; do not generate over the provided scaffold.
 
 ### The configuration
 As usual, the parameters controlling the pipeline are defined in the ``config.yaml`` file defined in
@@ -141,41 +191,43 @@ In order to run the pipeline when you are developing, you need to be in the root
 then you can execute as usual:
 
 ```bash
->  mlflow run .
+mlflow run .
 ```
-This will run the entire pipeline.
+This selects every default step. In the starter, only the download call is implemented; later branches still contain
+student TODOs and may simply execute `pass`. A zero exit status therefore does not mean that the pipeline is complete.
+After implementing each step, verify its expected W&B artifacts, tests, and metrics.
 
 When developing it is useful to be able to run one step at the time. Say you want to run only
 the ``download`` step. The `main.py` is written so that the steps are defined at the top of the file, in the 
 ``_steps`` list, and can be selected by using the `steps` parameter on the command line:
 
 ```bash
-> mlflow run . -P steps=download
+mlflow run . -P steps=download
 ```
 If you want to run the ``download`` and the ``basic_cleaning`` steps, you can similarly do:
 ```bash
-> mlflow run . -P steps=download,basic_cleaning
+mlflow run . -P steps=download,basic_cleaning
 ```
 You can override any other parameter in the configuration file using the Hydra syntax, by
 providing it as a ``hydra_options`` parameter. For example, say that we want to set the parameter
 modeling -> random_forest -> n_estimators to 10 and etl->min_price to 50:
 
 ```bash
-> mlflow run . \
+mlflow run . \
   -P steps=download,basic_cleaning \
   -P hydra_options="modeling.random_forest.n_estimators=10 etl.min_price=50"
 ```
 
 ### Pre-existing components
 In order to simulate a real-world situation, we are providing you with some pre-implemented
-re-usable components. While you have a copy in your fork, you will be using them from the original
-repository by accessing them through their GitHub link, like:
+reusable components under the repository's `components` directory. `config.yaml` sets
+`main.components_repository` to `components`, so MLflow resolves these components locally from your clone. The
+implemented download step is an example:
 
 ```python
 _ = mlflow.run(
                 f"{config['main']['components_repository']}/get_data",
                 "main",
-                version='main',
                 env_manager="conda",
                 parameters={
                     "sample": config["etl"]["sample"],
@@ -185,12 +237,10 @@ _ = mlflow.run(
                 },
             )
 ```
-where `config['main']['components_repository']` is set to 
-[https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices#components](https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices/tree/main/components).
-You can see the parameters that they require by looking into their `MLproject` file:
+You can see the parameters they require in their local `MLproject` files:
 
-- `get_data`: downloads the data. [MLproject](https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices/blob/main/components/get_data/MLproject)
-- `train_val_test_split`: segrgate the data (splits the data) [MLproject](https://github.com/udacity/build-ml-pipeline-for-short-term-rental-prices/blob/main/components/train_val_test_split/MLproject)
+- `get_data`: downloads the data. [MLproject](components/get_data/MLproject)
+- `train_val_test_split`: segregates the data into splits. [MLproject](components/train_val_test_split/MLproject)
 
 
 ## Instructions
@@ -212,10 +262,11 @@ NOTE: remember to add some markdown cells explaining what you are about to do, s
 notebook can be understood by other people like your colleagues
 
 1. The ``main.py`` script already comes with the download step implemented. Run the pipeline to 
-   get a sample of the data. The pipeline will also upload it to Weights & Biases:
+   get a sample of the data. Run this command from the repository root. The pipeline will also upload it to
+   Weights & Biases:
    
   ```bash
-  > mlflow run . -P steps=download
+  mlflow run . -P steps=download
   ```
   
   You will see a message similar to:
@@ -227,11 +278,12 @@ notebook can be understood by other people like your colleagues
 
 2. Now execute the `eda` step:
    ```bash
-   > mlflow run src/eda
+   mlflow run src/eda
    ```
-   This will install Jupyter and all the dependencies for `pandas-profiling`, and open a Jupyter notebook instance.
-   Click on New -> Python 3 and create a new notebook. Rename it `EDA` by clicking on `Untitled` at the top, beside the
-   Jupyter logo.
+   MLflow creates the environment defined in `src/eda/conda.yml`, then opens JupyterLab with the repository root as
+   its file browser. Create a notebook with the Python kernel supplied by this EDA environment and save it as
+   `EDA.ipynb` in the repository root. If you are working directly in the classroom Workspace instead, use its
+   preinstalled `ml` kernel and save the notebook at the same path.
 3. Within the notebook, fetch the artifact we just created (``sample.csv``) from W&B and read 
    it with pandas:
     
@@ -246,12 +298,12 @@ notebook can be understood by other people like your colleagues
     Note that we use ``save_code=True`` in the call to ``wandb.init`` so the notebook is uploaded and versioned
     by W&B.
 
-4. Using `pandas-profiling`, create a profile:
+4. Using `ydata-profiling`, create a profile:
    ```python
-   import pandas_profiling
-   
-   profile = pandas_profiling.ProfileReport(df)
-   profile.to_widgets()
+   from ydata_profiling import ProfileReport
+
+   profile = ProfileReport(df)
+   profile.to_notebook_iframe()
    ```
    what do you notice? Look around and see what you can find. 
    
@@ -275,8 +327,9 @@ notebook can be understood by other people like your colleagues
    missing values also in production.
 6. Create a new profile or check with ``df.info()`` that all obvious problems have been solved
 7. Terminate the run by running `run.finish()`
-8. Save the notebook, then close it (File -> Close and Halt). In the main Jupyter notebook page, click Quit in the
-   upper right to stop Jupyter. This will also terminate the mlflow run. DO NOT USE CRTL-C
+8. Follow the final checks in [`notes.md`](notes.md): restart the kernel, run all cells from top to bottom, and save
+   `EDA.ipynb`. In JupyterLab, shut down the notebook kernel, then use **File -> Shut Down** to stop the Jupyter
+   server. When the server exits, the `mlflow run src/eda` command also finishes.
 
 ## Data cleaning
 
@@ -284,24 +337,15 @@ Now we transfer the data processing we have done as part of the EDA to a new ``b
 step that starts from the ``sample.csv`` artifact and create a new artifact ``clean_sample.csv`` 
 with the cleaned data:
 
-1. Make sure you are in the root directory of the starter kit, then create a stub 
-   for the new step. The new step should accept the parameters ``input_artifact`` 
+1. The starter kit provides a stub in `src/basic_cleaning`. Reuse that directory; do not run Cookiecutter over it.
+   If the directory is missing from an older starter, use the setup example above to generate it once with the name
+   `basic_cleaning` and the comma-separated parameter names listed below. The step should accept the parameters
+   ``input_artifact``
    (the input artifact), ``output_artifact`` (the name for the output artifact), 
    ``output_type`` (the type for the output artifact), ``output_description`` 
    (a description for the output artifact), ``min_price`` (the minimum price to consider)
-   and ``max_price`` (the maximum price to consider):
-   
-   ```bash
-   > cookiecutter cookie-mlflow-step -o src
-   step_name [step_name]: basic_cleaning
-   script_name [run.py]: run.py
-   job_type [my_step]: basic_cleaning
-   short_description [My step]: A very basic data cleaning
-   long_description [An example of a step using MLflow and Weights & Biases]: Download from W&B the raw dataset and apply some basic data cleaning, exporting the result to a new artifact
-   parameters [parameter1,parameter2]: input_artifact,output_artifact,output_type,output_description,min_price,max_price
-   ```
-   This will create a directory ``src/basic_cleaning`` containing the basic files required 
-   for a MLflow step: ``conda.yml``, ``MLproject`` and the script (which we named ``run.py``).
+   and ``max_price`` (the maximum price to consider). The provided directory contains `conda.yml`, `MLproject`, and
+   `run.py`; its TODO markers are part of the exercise.
    
 2. Modify the ``src/basic_cleaning/run.py`` script and the ML project script by filling the 
    missing information about parameters (note the 
@@ -331,17 +375,9 @@ with the cleaned data:
     run.log_artifact(artifact)
    ```
    
-   **_REMEMBER__**: Whenever you are using a library (like pandas), you MUST add it as 
-                    dependency in the ``conda.yml`` file. For example, here we are using pandas 
-                    so we must add it to ``conda.yml`` file, including a version:
-   ```yaml
-   dependencies:
-     - pip=23.3.1
-     - pandas=2.1.3
-     - pip:
-         - mlflow==2.8.1
-         - wandb==0.16.0
-   ```
+   **_REMEMBER__**: A component must declare every library it imports. Pandas is already included in
+   `src/basic_cleaning/conda.yml` alongside the scaffold's base dependencies. If your implementation imports another
+   library, add only that dependency and choose a version compatible with this component environment.
    
 4. Add the ``basic_cleaning`` step to the pipeline (the ``main.py`` file):
 
@@ -389,7 +425,7 @@ in the Aliases section on the right:
 
 ![reference tag](images/wandb-tag-data-test.png "adding a reference tag")
  
-Now we are ready to add some tests. In the starter kit you can find a ``data_tests`` step
+Now we are ready to add some tests. In the starter kit you can find a ``data_check`` step
 that you need to complete. Let's start by appending to 
 ``src/data_check/test_data.py`` the following test:
   
@@ -487,8 +523,8 @@ column contains the title of the post on the rental website. Our pipeline perfor
 based on [TF-IDF](https://monkeylearn.com/blog/what-is-tf-idf/) (term frequency-inverse document frequency) and can 
 extract a good amount of information from the feature.
 
-Go to the artifact section of the selected job, and select the 
-`model_export` output artifact.  Add a ``prod`` tag to it to mark it as 
+Go to the artifact section of the selected job, and select the
+`random_forest_export` output artifact. Add a ``prod`` tag to it to mark it as
 "production ready".
 
 ### Test
@@ -507,21 +543,27 @@ activate it explicitly on the command line:
 ```
 
 ### Visualize the pipeline
-You can now go to W&B, go the Artifacts section, select the model export artifact then click on the
-``Graph view`` tab. You will see a representation of your pipeline.
+You can now go to W&B, open the Artifacts section, select the model export artifact, then open its
+``Lineage`` view. You will see a representation of your pipeline.
 
 ### Release the pipeline
-First copy the best hyper parameters you found in your ``configuration.yml`` so they become the
-default values. Then, go to your repository on GitHub and make a release. 
-If you need a refresher, here are some [instructions](https://docs.github.com/en/github/administering-a-repository/managing-releases-in-a-repository#creating-a-release)
-on how to release on GitHub.
+First copy the best hyperparameters you found into ``config.yaml`` so they become the
+default values. Commit and push the final `config.yaml` and project code, then confirm that the intended final commit
+is present in GitHub and your working tree is clean. Create the annotated `1.0.0` tag from that commit before creating
+the GitHub release:
 
-Call the release ``1.0.0``:
+```bash
+git tag -a 1.0.0 -m "Release 1.0.0"
+git push origin 1.0.0
+```
+
+Then create the GitHub release from the existing `1.0.0` tag. If you need a refresher, see GitHub's
+[release instructions](https://docs.github.com/en/github/administering-a-repository/managing-releases-in-a-repository#creating-a-release).
 
 ![tag the release](images/tag-release-github.png "tag the release")
 
-If you find problems in the release, fix them and then make a new release like ``1.0.1``, ``1.0.2``
-and so on.
+If you find problems in the release, fix them, create a new annotated tag such as `1.0.1` or `1.0.2`, and make a
+new release from that tag. The submission archive must preserve these annotated release tags.
 
 ### Train the model on a new data sample
 
@@ -555,38 +597,58 @@ Then commit your change, make a new release (for example ``1.0.1``) and retry (o
 ``-v 1.0.1`` when calling mlflow this time). Now the run should succeed and voit la', 
 you have trained your new model on the new data.
 
+## Submission
+
+Replace these fields in your copy of this README with your own links:
+
+- **W&B project:** `https://wandb.ai/<username-or-team>/nyc_airbnb`
+- **GitHub repository:** `https://github.com/<username>/build-ml-pipeline-for-short-term-rental-prices`
+
+Submit the same two links in **Submission Details**:
+
+1. Your public W&B `nyc_airbnb` project.
+2. Your GitHub repository.
+
+The GitHub repository can use any visibility allowed by the classroom, but the reviewer must be able to open it.
+Make the `nyc_airbnb` W&B project public. Enter both links in **Submission Details** even when the submission UI
+labels that field optional; these two links are required for review.
+
+If your classroom provides the Azure ZIP upload route, prepare the ZIP from a fresh clone of your final repository.
+Do not use GitHub's **Download ZIP**, because that download omits Git metadata. Fetch and verify the release tags,
+then archive the entire clone, including its `.git` directory:
+
+```bash
+git clone https://github.com/<username>/build-ml-pipeline-for-short-term-rental-prices.git nyc-airbnb-submission
+cd nyc-airbnb-submission
+git fetch --tags
+git tag -n
+git cat-file -t 1.0.0  # This must print: tag
+cd ..
+zip -r nyc-airbnb-submission.zip nyc-airbnb-submission
+```
+
+Before uploading, inspect the ZIP and confirm that it contains `nyc-airbnb-submission/.git/` and the files from the
+release you intend the reviewer to assess.
+
 ## In case of errors
 
 ### Environments
-When you make an error writing your `conda.yml` file, you might end up with an environment for the pipeline or one
-of the components that is corrupted. Most of the time `mlflow` realizes that and creates a new one every time you try
-to fix the problem. However, sometimes this does not happen, especially if the problem was in the `pip` dependencies.
-In that case, you might want to clean up all conda environments created by `mlflow` and try again. In order to do so,
-you can get a list of the environments you are about to remove by executing:
-
-```
-> conda info --envs | grep mlflow | cut -f1 -d" "
-```
-
-If you are ok with that list, execute this command to clean them up:
-
-**_NOTE_**: this will remove *ALL* the environments with a name starting with `mlflow`. Use at your own risk
-
-```
-> for e in $(conda info --envs | grep mlflow | cut -f1 -d" "); do conda uninstall --name $e --all -y;done
-```
-
-This will iterate over all the environments created by `mlflow` and remove them.
+When a component environment fails, read the first dependency error and check that component's `conda.yml`. The
+development, pipeline, and EDA environments are separate and do not need identical Python or package versions. After
+correcting a reproduced dependency problem, rerun that component so MLflow can resolve its environment again. Avoid
+deleting every MLflow environment, which can remove unrelated working environments without identifying the cause.
 
 ### MLflow & Wandb
 
-If you see the any error while running the command:
+If you see an error while running:
 
 ```
-> mlflow run .
+mlflow run .
 ```
 
-Please, make sure all steps are using **the same** python version and that you have **conda installed**. Additionally, *mlflow* and *wandb* packages are crucial and should have the same version.
+Confirm that conda is installed, that the development environment is active, and that you ran the command from the
+repository root. Then identify which step failed and inspect that step's own environment and logs. The starter's
+unimplemented TODO branches are still incomplete even when `mlflow run .` returns successfully.
 
 
 ## License

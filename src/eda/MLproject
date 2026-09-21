@@ -3,4 +3,4 @@ conda_env: conda.yml
 
 entry_points:
   main:
-    command: jupyter-lab
+    command: python launch.py
