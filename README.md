@@ -420,7 +420,7 @@ with the cleaned data:
                 "input_artifact": "sample.csv:latest",
                 "output_artifact": "clean_sample.csv",
                 "output_type": "clean_sample",
-                "output_description": "Data with outliers and null values removed",
+                "output_description": "Price outliers filtered and last_review converted; missing values retained",
                 "min_price": config['etl']['min_price'],
                 "max_price": config['etl']['max_price']
             },
