@@ -276,8 +276,9 @@ The scope of this section is to get an idea of how the process of an EDA works i
 pipelines, during the data exploration phase. In a real scenario you would spend a lot more time
 in this phase, but here we are going to do the bare minimum.
 
-NOTE: remember to add some markdown cells explaining what you are about to do, so that the
-notebook can be understood by other people like your colleagues
+NOTE: Add Markdown cells that explain your exploration findings and cleaning decisions so the notebook can be
+understood by colleagues. In particular, explain why missing values are retained rather than imputed or dropped here,
+and how handling them in the inference pipeline keeps the same treatment available at prediction time.
 
 1. The ``main.py`` script already comes with the download step implemented. Run the pipeline to 
    get a sample of the data. Run this command from the repository root. The pipeline will also upload it to
@@ -365,14 +366,16 @@ with the cleaned data:
    and ``max_price`` (the maximum price to consider). The provided directory contains `conda.yml`, `MLproject`, and
    `run.py`; its TODO markers are part of the exercise.
    
-2. Modify the ``src/basic_cleaning/run.py`` script and the ML project script by filling the 
-   missing information about parameters (note the 
-   comments like ``INSERT TYPE HERE`` and ``INSERT DESCRIPTION HERE``). All parameters should be
-   of type ``str`` except ``min_price`` and ``max_price`` that should be ``float``.
+2. Modify ``src/basic_cleaning/run.py`` and ``MLproject`` to fill in the parameter types and descriptions (look for
+   comments like ``INSERT TYPE HERE`` and ``INSERT DESCRIPTION HERE``). In ``MLproject``, use ``type: string`` for
+   ``input_artifact``, ``output_artifact``, ``output_type``, and ``output_description``, and ``type: float`` for
+   ``min_price`` and ``max_price``. In ``run.py``, use the corresponding Python types ``str`` and ``float``.
    
 3. Implement in the section marked ```# YOUR CODE HERE     #``` the steps we 
    have implemented in the notebook, including downloading the data from W&B. 
-   Remember to use the ``logger`` instance already provided to print meaningful messages to screen. 
+   Use the provided ``logger`` to report the main cleaning operations: loading the input data, filtering price
+   outliers, converting ``last_review``, and saving or uploading the output. Choose message wording and detail that fit
+   your implementation.
    
    Make sure to use ``args.min_price`` and ``args.max_price`` when dropping the outliers 
    (instead of  hard-coding the values like we did in the notebook).
@@ -565,10 +568,10 @@ You can now go to W&B, open the Artifacts section, select the model export artif
 ``Lineage`` view. You will see a representation of your pipeline.
 
 ### Release the pipeline
-First copy the best hyperparameters you found into ``config.yaml`` so they become the
-default values. Commit and push the final `config.yaml` and project code, then confirm that the intended final commit
-is present in your selected source repository and your working tree is clean. Create and push the annotated `1.0.0`
-tag from that commit:
+Select the hyperparameters from the run with the lowest validation MAE and save them as defaults in
+``config.yaml``. Commit and push that final configuration and project code, then confirm that the intended commit is
+present in your selected source repository and your working tree is clean. Create and push the annotated `1.0.0` tag
+from that commit:
 
 ```bash
 git tag -a 1.0.0 -m "Release 1.0.0"
